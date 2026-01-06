@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIF.Genesis | Fission Protocol</title>
+    <title>AIF.KINGMAKER | 賽伯樂計劃</title>
     
+    <!-- 依賴庫 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- 字體庫 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Oswald:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -19,13 +20,13 @@
                 extend: {
                     colors: {
                         void: '#050505',
-                        concrete: '#1F1F1F',
                         signal: '#FF3300',
+                        gold: '#FFD700',
                         steel: '#EAEAEA',
-                        dim: '#888888',
                         paper: '#F3F3F3'
                     },
                     fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
                         heavy: ['"Oswald"', 'sans-serif'],
                         mono: ['"Space Mono"', 'monospace'],
                     },
@@ -34,6 +35,7 @@
                     },
                      boxShadow: {
                         'brutal': '8px 8px 0px 0px #000000',
+                        'gold': '8px 8px 0px 0px #FFD700',
                     }
                 }
             }
@@ -41,434 +43,258 @@
     </script>
 
     <style>
-        /* CORE STYLES */
+        /* 基礎樣式 */
         html { scroll-behavior: smooth; }
-        body { background-color: #EAEAEA; color: #050505; overflow-x: hidden; font-family: 'Space Mono', monospace; }
+        body { background-color: #EAEAEA; color: #050505; overflow-x: hidden; font-family: 'Noto Sans TC', sans-serif; }
+        body.modal-open { overflow: hidden; }
         ::selection { background: #FF3300; color: #000; }
 
-        /* TYPOGRAPHY */
-        .mega-text {
-            font-size: clamp(3rem, 12vw, 11rem);
-            line-height: 0.85;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            font-weight: 700;
-            font-family: 'Oswald', sans-serif;
-        }
+        /* 排版 */
+        .mega-text { font-size: clamp(3rem, 10vw, 9rem); line-height: 0.9; text-transform: uppercase; letter-spacing: -0.02em; font-weight: 700; font-family: 'Oswald', sans-serif; }
+        .section-title { font-size: clamp(2rem, 5vw, 4rem); line-height: 1; text-transform: uppercase; font-weight: 700; margin-bottom: 2rem; letter-spacing: -0.02em; font-family: 'Oswald', sans-serif; }
+        .outline-text { color: transparent; -webkit-text-stroke: 1.5px #050505; text-stroke: 1.5px #050505; }
+        .hero-title .outline-text { -webkit-text-stroke: 1.5px #FFFFFF; }
 
-        .section-title {
-            font-size: clamp(2rem, 5vw, 5rem);
-            line-height: 1;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-            font-family: 'Oswald', sans-serif;
-        }
-
-        .outline-text {
-            color: transparent;
-            -webkit-text-stroke: 1.5px #050505;
-            text-stroke: 1.5px #050505;
-            transition: all 0.3s ease;
-        }
-        
-        .hero-title .outline-text {
-            -webkit-text-stroke: 1.5px #FFFFFF;
-        }
-
-        /* BUTTONS */
+        /* 按鈕特效 */
         .brutal-btn {
-            background: #050505;
-            color: #EAEAEA;
-            border: 2px solid #050505;
-            padding: 1rem 2rem;
-            font-family: 'Space Mono', monospace;
-            text-transform: uppercase;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            text-decoration: none;
-            width: auto;
+            background: #050505; color: #EAEAEA; border: 2px solid #050505; padding: 1rem 2rem;
+            font-family: 'Space Mono', 'Noto Sans TC', monospace; text-transform: uppercase; font-weight: bold;
+            position: relative; overflow: hidden; transition: all 0.3s; display: inline-flex;
+            align-items: center; justify-content: center; cursor: pointer;
         }
+        .brutal-btn:hover { color: #000; background: #FF3300; border-color: #FF3300; }
+        .brutal-btn.gold-btn { background: #FFD700; border-color: #FFD700; color: #000; }
+        .brutal-btn.gold-btn:hover { background: #000; border-color: #000; color: #FFD700; }
+        .brutal-btn.secondary { background: transparent; color: #050505; }
+        .brutal-btn.secondary:hover { background: #050505; color: #EAEAEA; }
 
-        .brutal-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #FF3300;
-            transform: translateX(-101%);
-            transition: transform 0.3s cubic-bezier(0.77, 0, 0.175, 1);
-            z-index: 0;
-        }
-
-        .brutal-btn:hover::before { transform: translateX(0); }
-        .brutal-btn span { position: relative; z-index: 1; }
-        .brutal-btn:hover { color: #000; border-color: #FF3300; }
-        
-        .brutal-btn.secondary {
-            background: transparent;
-            color: #050505;
-            border: 2px solid #050505;
-        }
-        
-        .hero-btn-secondary {
-            background: transparent !important;
-            color: #FFFFFF !important;
-            border: 2px solid #FFFFFF !important;
-        }
-        .hero-btn-secondary:hover {
-            color: #000000 !important;
-            border-color: #FF3300 !important;
-            background: #FF3300 !important;
-        }
-
-        /* COMPONENTS */
+        /* 組件 */
         .grid-bg { background-size: 40px 40px; background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px); }
-
-        /* MARQUEE */
-        .marquee-container { overflow: hidden; white-space: nowrap; display: flex; }
-        .marquee-content { display: flex; animation: marquee 30s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* LOADER */
-        #loader {
-            position: fixed; inset: 0; background: #FF3300; z-index: 9999;
-            display: flex; justify-content: center; align-items: center; flex-direction: column;
-        }
-
-        /* DIAGRAM BOX STYLES */
-        .logic-box {
-            border: 3px solid #000;
-            background: #fff;
-            position: relative;
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-        .logic-box:hover {
-            transform: translate(-5px, -5px);
-            box-shadow: 8px 8px 0px 0px #FF3300;
-        }
-
-        /* INFO CARDS */
+        .logic-box { border: 3px solid #000; background: #fff; position: relative; z-index: 1; transition: all 0.3s ease; }
+        .logic-box:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px 0px #FF3300; }
         .info-card { transition: all 0.3s ease; border: 2px solid #000; height: 100%; background: white; }
         .info-card:hover { transform: translateY(-5px); box-shadow: 10px 10px 0px 0px #FF3300; }
-
-        /* MODAL */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 5, 0.95);
-            z-index: 1000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        .modal-content {
-            background: #EAEAEA;
-            border: 4px solid #FF3300;
-            max-width: 600px;
-            width: 100%;
-            position: relative;
-            box-shadow: 20px 20px 0px 0px rgba(0,0,0,1);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        /* COMPLIANCE MODAL */
-        #complianceModal { display: flex; z-index: 99999; background: rgba(0, 0, 0, 0.98); }
         
-        .checkbox-wrapper { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; cursor: pointer; }
-        .checkbox-wrapper input[type="checkbox"] { appearance: none; -webkit-appearance: none; min-width: 24px; height: 24px; border: 2px solid #000; background: #fff; position: relative; margin-top: 2px; cursor: pointer; }
-        .checkbox-wrapper input[type="checkbox"]:checked { background: #FF3300; }
-        .checkbox-wrapper input[type="checkbox"]:checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000; font-weight: bold; font-size: 16px; }
+        /* 彈窗系統 */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.95); z-index: 9000; display: flex; justify-content: center; align-items: center; padding: 1rem; opacity: 1; transition: opacity 0.5s ease; }
+        .modal-overlay.hidden { display: none; opacity: 0; pointer-events: none; }
+        .modal-content { background: #EAEAEA; border: 4px solid #FF3300; max-width: 600px; width: 100%; box-shadow: 20px 20px 0px 0px rgba(0,0,0,1); max-height: 90vh; overflow-y: auto; }
 
-        /* Lang Logic */
-        body:not(.zh) .lang-zh { display: none !important; }
-        body.zh .lang-en { display: none !important; }
-        
-        /* Mobile Menu */
-        #mobile-menu { position: fixed; top: 76px; left: 0; width: 100%; height: calc(100vh - 76px); background: #050505; transform: translateX(100%); transition: transform 0.3s ease-in-out; z-index: 49; overflow-y: auto; padding-bottom: 2rem; }
+        /* 移動端菜單 */
+        #mobile-menu { position: fixed; top: 80px; left: 0; width: 100%; height: calc(100vh - 80px); background: #050505; transform: translateX(100%); transition: transform 0.3s ease-in-out; z-index: 49; overflow-y: auto; }
         #mobile-menu.active { transform: translateX(0); }
-
-        .toast-message { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #FF3300; color: #000; padding: 10px 20px; font-family: 'Space Mono', monospace; font-weight: bold; border: 2px solid #000; z-index: 10000; opacity: 0; transition: opacity 0.3s; pointer-events: none; box-shadow: 5px 5px 0px 0px #000; }
+        
+        .toast-message { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #FF3300; color: #000; padding: 10px 20px; font-weight: bold; border: 2px solid #000; z-index: 10000; opacity: 0; pointer-events: none; transition: opacity 0.3s; box-shadow: 5px 5px 0px 0px #000; }
         .toast-message.show { opacity: 1; }
+
+        /* RTL 支持 */
+        body.rtl { direction: rtl; font-family: 'Noto Sans Arabic', sans-serif; }
+        body.rtl .font-mono { font-family: 'Noto Sans Arabic', sans-serif; }
+        body.rtl .brutal-btn i { margin-left: 0; margin-right: 0.5rem; }
     </style>
 </head>
-<body class="grid-bg en overflow-x-hidden"> 
+<body class="grid-bg zh modal-open"> 
 
-    <div id="loader">
-        <div class="font-heavy text-5xl md:text-9xl font-bold text-black tracking-tighter text-center px-4">AIF.GENESIS</div>
-        <div class="font-mono text-black mt-4 text-xs md:text-base animate-pulse">
-            /// LOADING_PROTOCOL...
-        </div>
+    <!-- 1. 系統加載動畫 -->
+    <div id="loader" class="fixed inset-0 bg-signal z-[9999] flex flex-col justify-center items-center">
+        <div class="font-heavy text-5xl md:text-9xl font-bold text-black tracking-tighter text-center">KINGMAKER</div>
+        <div class="font-mono text-black mt-4 animate-pulse">/// SYSTEM INITIALIZING...</div>
     </div>
 
+    <!-- 2. 合規彈窗 -->
     <div id="complianceModal" class="modal-overlay">
-        <div class="modal-content p-6 md:p-8 max-w-lg">
+        <div class="modal-content p-6 md:p-8">
             <div class="border-b-4 border-black mb-6 pb-4">
-                <h2 class="font-heavy text-3xl md:text-4xl text-black leading-none">
-                    <span class="lang-en">IMPORTANT STATEMENT</span>
-                    <span class="lang-zh">【重要声明】</span>
-                </h2>
-                <div class="mt-4 font-mono text-xs md:text-sm font-bold text-gray-700 bg-gray-200 p-3 border-l-4 border-signal">
-                    <p class="mb-2">
-                        <span class="lang-en">You are about to enter HKAIIFF Digital Asset Service Area.</span>
-                        <span class="lang-zh">您即将进入HKAIIFF数字资产服务区域。</span>
-                    </p>
-                    <p>
-                        <span class="lang-en">This service is provided by a Hong Kong entity and governed by Hong Kong laws.</span>
-                        <span class="lang-zh">本服务由香港主体提供，受香港法律管辖。</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="font-mono text-xs md:text-sm space-y-3 mb-6">
-                <div class="font-bold mb-3 uppercase">
-                    <span class="lang-en">Please confirm:</span>
-                    <span class="lang-zh">请确认：</span>
-                </div>
-                <label class="checkbox-wrapper"><input type="checkbox" class="compliance-check" onchange="checkCompliance()"><span class="leading-tight pt-1"><span class="lang-en">I am not a resident of mainland China</span><span class="lang-zh">本人非中国大陆居民</span></span></label>
-                <label class="checkbox-wrapper"><input type="checkbox" class="compliance-check" onchange="checkCompliance()"><span class="leading-tight pt-1"><span class="lang-en">I am not a U.S. citizen or resident</span><span class="lang-zh">本人非美国公民或居民</span></span></label>
-                <label class="checkbox-wrapper"><input type="checkbox" class="compliance-check" onchange="checkCompliance()"><span class="leading-tight pt-1"><span class="lang-en">I am participating with my own offshore assets</span><span class="lang-zh">本人通过自有境外资产参与</span></span></label>
-                <label class="checkbox-wrapper"><input type="checkbox" class="compliance-check" onchange="checkCompliance()"><span class="leading-tight pt-1"><span class="lang-en">I am aware of digital asset risks</span><span class="lang-zh">本人知悉数字资产风险</span></span></label>
-                <label class="checkbox-wrapper"><input type="checkbox" class="compliance-check" onchange="checkCompliance()"><span class="leading-tight pt-1"><span class="lang-en">I voluntarily bear all risks</span><span class="lang-zh">本人自愿承担全部风险</span></span></label>
-            </div>
-
-            <div class="text-center">
-                <p class="font-mono text-[10px] text-gray-500 mb-4">
-                    <span class="lang-en">I have read and agree to "User Agreement" & "Risk Disclosure Statement"</span>
-                    <span class="lang-zh">我已阅读并同意《用户协议》《风险提示书》</span>
-                </p>
-                <button id="complianceBtn" onclick="acceptCompliance()" disabled class="w-full bg-gray-400 text-gray-700 border-2 border-gray-500 py-3 font-mono font-bold text-sm uppercase transition-all duration-300 cursor-not-allowed">
-                    <span class="lang-en">ENTER WEBSITE</span>
-                    <span class="lang-zh">进入网站</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed top-0 left-0 w-full bg-signal text-black py-2 font-mono text-xs md:text-sm font-bold border-b-2 border-black z-50">
-        <div class="marquee-container">
-            <div class="marquee-content">
-                <span class="mx-4">///</span>
-                <span class="mx-4 lang-en">🎉 LIMITED 3,000 GENESIS MEMBER RECRUITMENT! ROUND 3 PRICE $0.06/AIF 🚀</span>
-                <span class="mx-4 lang-zh">🎉 限量3,000名 GENESIS創世會員招募中！第3輪價格 $0.06/AIF 🚀</span>
-                <span class="mx-4">///</span>
-                <span class="mx-4 lang-en">CONFIGURE THE FUTURE AT BEST PRICE</span>
-                <span class="mx-4 lang-zh">以最優惠價格配置未來資產</span>
-                <span class="mx-4">///</span>
-                <span class="mx-4 lang-en">INVITE A: 20% REWARD · INVITE B: 80% REWARD · TOTAL 100% PAYBACK</span>
-                <span class="mx-4 lang-zh">邀請A獲20% · 邀請B獲80% · 實現100%全額回本</span>
-                <span class="mx-4">///</span>
-            </div>
-        </div>
-    </div>
-
-    <nav class="fixed top-[36px] md:top-[40px] left-0 w-full z-40 border-b-2 border-black h-16 md:h-20 flex items-center bg-[rgba(234,234,234,0.95)] backdrop-blur-md">
-        <div class="w-full max-w-[1920px] mx-auto flex justify-between items-stretch h-full">
-            <div class="flex flex-col justify-center px-4 md:px-8 border-r-2 border-black hover:bg-black hover:text-white transition-colors cursor-pointer group h-full">
-                <span class="font-heavy text-2xl md:text-3xl font-bold tracking-tighter leading-none mb-1">AIF</span>
-                <span class="font-mono text-[10px] tracking-widest font-bold text-signal">GENESIS</span>
+                <h2 class="font-heavy text-2xl md:text-3xl text-black leading-tight uppercase" data-i18n="compliance.title">IMPORTANT STATEMENT</h2>
             </div>
             
-            <div class="hidden lg:flex items-stretch h-full">
-                <a href="#logic" class="nav-link flex items-center px-6 border-r-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs uppercase font-bold">
-                    <span class="lang-en">Logic</span><span class="lang-zh">核心邏輯</span>
-                </a>
-                <a href="#ecosystem" class="nav-link flex items-center px-6 border-r-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs uppercase font-bold">
-                    <span class="lang-en">Ecosystem</span><span class="lang-zh">生態</span>
-                </a>
-                <a href="#invitation" class="nav-link flex items-center px-6 border-r-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs uppercase font-bold">
-                    <span class="lang-en">Rounds</span><span class="lang-zh">輪次</span>
-                </a>
-                 <a href="#activation" class="nav-link flex items-center px-6 border-r-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs uppercase font-bold bg-black text-white hover:text-signal">
-                    <span class="lang-en">ACTIVATE</span><span class="lang-zh">立即激活</span>
-                </a>
+            <div class="font-mono text-xs mb-4 bg-gray-200 p-4 border-l-4 border-signal">
+                <p class="mb-2" data-i18n="compliance.intro1">You are about to enter HKAIIFF Digital Asset Service Area.</p>
+                <p data-i18n="compliance.intro2">This service is provided by a Hong Kong entity and governed by Hong Kong laws.</p>
             </div>
 
-            <div class="flex h-full">
-                <button id="lang-btn" onclick="switchLang()" class="flex items-center px-4 md:px-6 border-l-2 border-black hover:bg-signal hover:text-white transition-colors font-mono text-xs font-bold uppercase h-full min-w-[80px] md:min-w-[100px] justify-center">
-                    CN / EN
-                </button>
-                <button onclick="toggleMenu()" class="lg:hidden flex items-center px-6 border-l-2 border-black hover:bg-black hover:text-white transition-colors h-full">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+            <div class="font-mono text-xs space-y-3 mb-6 bg-white p-4 border-2 border-gray-300">
+                <p class="font-bold mb-3 uppercase border-b border-gray-200 pb-1" data-i18n="compliance.confirm">Please confirm:</p>
+                <label class="flex gap-3 cursor-pointer items-start hover:bg-gray-50 p-1"><input type="checkbox" class="compliance-check w-5 h-5 accent-signal border-2 border-black flex-shrink-0 mt-0.5"><span class="pt-0.5" data-i18n="compliance.1">I am not a resident of mainland China</span></label>
+                <label class="flex gap-3 cursor-pointer items-start hover:bg-gray-50 p-1"><input type="checkbox" class="compliance-check w-5 h-5 accent-signal border-2 border-black flex-shrink-0 mt-0.5"><span class="pt-0.5" data-i18n="compliance.2">I am not a U.S. citizen or resident</span></label>
+                <label class="flex gap-3 cursor-pointer items-start hover:bg-gray-50 p-1"><input type="checkbox" class="compliance-check w-5 h-5 accent-signal border-2 border-black flex-shrink-0 mt-0.5"><span class="pt-0.5" data-i18n="compliance.3">I am participating with my own offshore assets</span></label>
+                <label class="flex gap-3 cursor-pointer items-start hover:bg-gray-50 p-1"><input type="checkbox" class="compliance-check w-5 h-5 accent-signal border-2 border-black flex-shrink-0 mt-0.5"><span class="pt-0.5" data-i18n="compliance.4">I am aware of digital asset risks</span></label>
+                <label class="flex gap-3 cursor-pointer items-start hover:bg-gray-50 p-1"><input type="checkbox" class="compliance-check w-5 h-5 accent-signal border-2 border-black flex-shrink-0 mt-0.5"><span class="pt-0.5" data-i18n="compliance.5">I voluntarily bear all risks</span></label>
+                <label class="flex gap-3 cursor-pointer items-start hover:bg-gray-50 p-1"><input type="checkbox" class="compliance-check w-5 h-5 accent-signal border-2 border-black flex-shrink-0 mt-0.5"><span class="pt-0.5" data-i18n="compliance.6">I have read and agree to "User Agreement" & "Risk Disclosure Statement"</span></label>
             </div>
+            <button id="complianceBtn" onclick="acceptCompliance()" disabled class="w-full bg-gray-300 text-gray-500 border-2 border-gray-400 py-4 font-mono font-bold uppercase transition-all duration-300 disabled:cursor-not-allowed hover:enabled:bg-black hover:enabled:text-signal hover:enabled:border-black" data-i18n="compliance.btn">
+                ENTER SYSTEM
+            </button>
+        </div>
+    </div>
+
+    <!-- 3. 導航欄 -->
+    <nav class="fixed top-0 left-0 w-full z-40 border-b-2 border-black h-20 flex items-center bg-[rgba(234,234,234,0.95)] backdrop-blur-md">
+        <div class="w-full max-w-[1920px] mx-auto flex justify-between items-stretch h-full">
+            <div class="flex flex-col justify-center px-6 border-r-2 border-black bg-black text-white min-w-[120px]">
+                <span class="font-heavy text-2xl tracking-tighter leading-none">AIF</span>
+                <span class="font-mono text-[10px] tracking-widest text-signal">KINGMAKER</span>
+            </div>
+            <div class="hidden lg:flex items-stretch flex-1 justify-center">
+                <a href="#logic-2x2" class="flex items-center px-6 border-l-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs font-bold uppercase" data-i18n="nav.2x2">二二複製</a>
+                <a href="#logic-7" class="flex items-center px-6 border-l-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs font-bold uppercase" data-i18n="nav.team">七人成團</a>
+                <a href="#logic-king" class="flex items-center px-6 border-l-2 border-black bg-gold hover:bg-black hover:text-gold transition-colors font-mono text-xs font-bold uppercase" data-i18n="nav.king">賽伯樂獎</a>
+                <a href="#token" class="flex items-center px-6 border-l-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs font-bold uppercase" data-i18n="nav.token">AIF 通證</a>
+                <a href="#ecosystem" class="flex items-center px-6 border-l-2 border-black hover:bg-black hover:text-white transition-colors font-mono text-xs font-bold uppercase" data-i18n="nav.eco">生態系統</a>
+                <a href="#activation" class="flex items-center px-6 border-l-2 border-black bg-black text-white hover:bg-signal hover:text-black transition-colors font-mono text-xs font-bold uppercase" data-i18n="nav.activate">開啟KINGMAKER計劃</a>
+            </div>
+            <div class="flex relative group">
+                <button class="flex items-center px-6 border-l-2 border-black hover:bg-signal hover:text-black transition-colors font-mono text-xs font-bold w-[120px] justify-center">
+                    <i class="fas fa-globe mr-2"></i> <span id="current-lang">繁體中文</span>
+                </button>
+                <div class="absolute top-full right-0 bg-white border-2 border-black w-full hidden group-hover:block z-50">
+                    <button onclick="changeLang('zh')" class="block w-full text-left px-4 py-3 hover:bg-black hover:text-white text-xs font-bold border-b border-gray-100">繁體中文</button>
+                    <button onclick="changeLang('en')" class="block w-full text-left px-4 py-3 hover:bg-black hover:text-white text-xs font-bold border-b border-gray-100">English</button>
+                    <button onclick="changeLang('ja')" class="block w-full text-left px-4 py-3 hover:bg-black hover:text-white text-xs font-bold border-b border-gray-100">日本語</button>
+                    <button onclick="changeLang('ko')" class="block w-full text-left px-4 py-3 hover:bg-black hover:text-white text-xs font-bold border-b border-gray-100">한국어</button>
+                    <button onclick="changeLang('ar')" class="block w-full text-left px-4 py-3 hover:bg-black hover:text-white text-xs font-bold">العربية</button>
+                </div>
+            </div>
+            <button onclick="toggleMenu()" class="lg:hidden flex items-center px-6 border-l-2 border-black bg-white hover:bg-black hover:text-white"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
+    <!-- 移動端菜單 -->
     <div id="mobile-menu">
-        <div class="flex flex-col p-8 gap-6">
-            <a href="#logic" onclick="toggleMenu()" class="text-white font-heavy text-4xl hover:text-signal"><span class="lang-en">LOGIC</span><span class="lang-zh">核心邏輯</span></a>
-            <a href="#team" onclick="toggleMenu()" class="text-white font-heavy text-4xl hover:text-signal"><span class="lang-en">TEAM</span><span class="lang-zh">七人成團</span></a>
-            <a href="#ecosystem" onclick="toggleMenu()" class="text-white font-heavy text-4xl hover:text-signal"><span class="lang-en">ECOSYSTEM</span><span class="lang-zh">生態系統</span></a>
-            <a href="#token" onclick="toggleMenu()" class="text-white font-heavy text-4xl hover:text-signal"><span class="lang-en">TOKEN</span><span class="lang-zh">AIF 通證</span></a>
-            <a href="#invitation" onclick="toggleMenu()" class="text-white font-heavy text-4xl hover:text-signal"><span class="lang-en">ROUNDS</span><span class="lang-zh">釋放輪次</span></a>
-            <div class="h-px bg-gray-800 my-4"></div>
-            <a href="#activation" onclick="toggleMenu()" class="text-signal font-heavy text-4xl"><span class="lang-en">ACTIVATE</span><span class="lang-zh">立即激活</span></a>
+        <div class="flex flex-col p-8 gap-6 text-white text-center">
+            <a href="#logic-2x2" onclick="toggleMenu()" class="font-heavy text-3xl hover:text-signal" data-i18n="nav.2x2">二二複製</a>
+            <a href="#logic-7" onclick="toggleMenu()" class="font-heavy text-3xl hover:text-signal" data-i18n="nav.team">七人成團</a>
+            <a href="#logic-king" onclick="toggleMenu()" class="font-heavy text-3xl text-gold hover:text-white" data-i18n="nav.king">賽伯樂獎</a>
+            <a href="#token" onclick="toggleMenu()" class="font-heavy text-3xl hover:text-signal" data-i18n="nav.token">AIF 通證</a>
+            <a href="#ecosystem" onclick="toggleMenu()" class="font-heavy text-3xl hover:text-signal" data-i18n="nav.eco">生態系統</a>
+            <div class="h-px bg-gray-800"></div>
+            <a href="#activation" onclick="toggleMenu()" class="font-heavy text-3xl text-signal" data-i18n="nav.activate">開啟KINGMAKER計劃</a>
         </div>
     </div>
 
-    <header class="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-black text-white">
-        <div class="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-800 via-black to-black"></div>
-        <div class="relative z-10 w-full max-w-[1920px] mx-auto px-4 md:px-8">
-            <div class="max-w-7xl mx-auto text-center">
-                <div class="inline-flex items-center gap-2 border border-signal text-signal px-4 py-2 font-mono text-xs md:text-sm font-bold mb-8 uppercase animate-pulse">
-                    <i class="fas fa-circle text-[10px]"></i>
-                    <span class="lang-en">Live: Round 3 Invitation (Limited 3,000)</span>
-                    <span class="lang-zh">進行中：第3輪邀請制招募 (限量3,000名)</span>
-                </div>
-                <h1 class="hero-title font-heavy mega-text mb-6 leading-none">
-                    <span class="block text-white">GENESIS</span>
-                    <span class="block outline-text text-5xl md:text-7xl lg:text-8xl mt-2 md:mt-4">FISSION PROTOCOL</span>
-                </h1>
-                <p class="font-mono text-sm md:text-xl max-w-3xl mx-auto text-gray-300 mb-12 leading-relaxed px-4">
-                    <span class="lang-en">Leverage the 2x2 Replication Model. Zero Cost Membership. Infinite Growth.</span>
-                    <span class="lang-zh">利用二二複製模型實現零成本會員資格 · 構建您的數字資產未來</span>
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-12 px-4">
-                    <div class="border-2 border-white bg-black p-6 md:p-8 relative group hover:border-signal transition-colors">
-                        <div class="absolute top-0 right-0 bg-white text-black px-2 py-1 text-xs font-bold font-mono group-hover:bg-signal">PUBLIC STANDARD</div>
-                        <div class="text-gray-500 line-through font-mono text-sm mb-2">$0.20 / AIF</div>
-                        <div class="font-heavy text-4xl md:text-5xl text-gray-400 group-hover:text-white transition-colors">PUBLIC</div>
-                        <div class="font-mono text-xs text-gray-500 mt-2">
-                            <span class="lang-en">Exchange Listing Standard Price</span>
-                            <span class="lang-zh">公開市場標準定價</span>
-                        </div>
-                    </div>
-                    <div class="border-4 border-signal bg-black p-6 md:p-8 relative shadow-[10px_10px_0px_0px_rgba(255,51,0,0.5)]">
-                        <div class="absolute top-0 left-0 bg-signal text-black px-2 py-1 text-xs font-bold font-mono">ROUND 3 OFFER</div>
-                        <div class="font-heavy text-5xl md:text-6xl text-white mb-2">$0.06</div>
-                        <div class="font-mono text-sm text-signal font-bold leading-tight">
-                            <span class="lang-en">Invitation-Only Tiered Release</span><br>
-                            <span class="lang-zh">邀請制按輪次遞增釋放</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row gap-4 justify-center px-4">
-                    <a href="#activation" class="brutal-btn bg-signal text-black hover:bg-white border-signal w-full md:w-auto">
-                        <span class="lang-en">START ACTIVATION</span>
-                        <span class="lang-zh">開始激活流程</span>
-                    </a>
-                    <a href="#logic" class="brutal-btn hero-btn-secondary w-full md:w-auto">
-                        <span class="lang-en">VIEW RULES</span>
-                        <span class="lang-zh">查看裂變規則</span>
-                    </a>
-                </div>
+    <!-- 4. 主視覺 (HERO) -->
+    <header class="relative pt-40 pb-20 bg-black text-white min-h-screen flex items-center">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
+        <div class="w-full max-w-7xl mx-auto px-4 relative z-10 text-center">
+            <div class="inline-flex items-center gap-3 border border-gold text-gold px-4 py-2 font-mono text-xs font-bold mb-8 uppercase animate-pulse">
+                <i class="fas fa-crown"></i>
+                <span data-i18n="hero.tag">賽伯樂計劃：1億 AIF 獎勵池已開啟</span>
+            </div>
+            <h1 class="hero-title font-heavy mega-text mb-6 leading-none">
+                <span class="block text-white">KINGMAKER</span>
+                <span class="block outline-text text-signal">PROTOCOL</span>
+            </h1>
+            <p class="font-mono text-sm md:text-xl max-w-4xl mx-auto text-gray-400 mb-12 leading-relaxed" data-i18n="hero.desc">
+                900 USD 創世節點 · 贈送 10,000 AIF · 二二複製回本 · 七人成團獲利 · 伯樂 $1200 獎勵
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#activation" class="brutal-btn bg-gold text-black border-gold hover:bg-white w-full md:w-auto" data-i18n="hero.btn1">
+                    成為賽伯樂
+                </a>
+                <a href="#logic-2x2" class="brutal-btn border-white text-white hover:bg-white hover:text-black w-full md:w-auto" data-i18n="hero.btn2">
+                    查看規則
+                </a>
             </div>
         </div>
     </header>
 
-    <section class="py-20 px-4 md:px-8 border-b-2 border-black bg-steel">
-         <div class="max-w-7xl mx-auto">
-            <div class="border-4 border-black bg-signal p-4 md:p-8 relative shadow-brutal">
-                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-black text-signal px-6 py-2 border-2 border-signal z-10">
-                    <h3 class="font-heavy text-2xl md:text-3xl uppercase tracking-widest whitespace-nowrap">
-                        <span class="lang-en">/// CORE ADVANTAGES ///</span>
-                        <span class="lang-zh">/// 三大核心優勢 ///</span>
-                    </h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
-                    <div class="bg-white border-2 border-black p-6 md:p-8 hover:-translate-y-2 hover:shadow-brutal hover:bg-black hover:text-white transition-all duration-300 group flex flex-col justify-between min-h-[300px]">
-                        <div>
-                            <div class="flex justify-between items-start mb-6">
-                                <span class="bg-black text-signal text-xs font-mono font-bold px-2 py-1 group-hover:bg-signal group-hover:text-black">VERIFIED</span>
-                                <i class="fas fa-shield-alt text-4xl text-black group-hover:text-signal"></i>
-                            </div>
-                            <h4 class="font-heavy text-3xl md:text-4xl leading-none mb-4 uppercase">
-                                <span class="lang-en">COMPLIANCE</span>
-                                <span class="lang-zh">合規主體</span>
-                            </h4>
-                            <div class="w-12 h-2 bg-signal mb-4"></div>
-                        </div>
-                        <p class="font-mono text-sm leading-relaxed text-gray-800 group-hover:text-gray-300">
-                            <span class="lang-en">Hong Kong Gov approved legal entity. Secure payments. Ecosystem guarantee.</span>
-                            <span class="lang-zh">香港政府批復合規合法運營主體。<br>支付無憂，生態保障。</span>
-                        </p>
-                    </div>
-                    <div class="bg-white border-2 border-black p-6 md:p-8 hover:-translate-y-2 hover:shadow-brutal hover:bg-black hover:text-white transition-all duration-300 group flex flex-col justify-between min-h-[300px]">
-                        <div>
-                            <div class="flex justify-between items-start mb-6">
-                                <span class="bg-black text-signal text-xs font-mono font-bold px-2 py-1 group-hover:bg-signal group-hover:text-black animate-pulse">LIVE NOW</span>
-                                <i class="fas fa-building text-4xl text-black group-hover:text-signal"></i>
-                            </div>
-                            <h4 class="font-heavy text-3xl md:text-4xl leading-none mb-4 uppercase">
-                                <span class="lang-en">REALIZED</span>
-                                <span class="lang-zh">落地項目</span>
-                            </h4>
-                            <div class="w-12 h-2 bg-signal mb-4"></div>
-                        </div>
-                        <p class="font-mono text-sm leading-relaxed text-gray-800 group-hover:text-gray-300">
-                            <span class="lang-en">HK AI Film Academy live for 8 months. 120-month project roadmap executing steadily.</span>
-                            <span class="lang-zh">已落地項目非空談理想願景。<br>香港AI電影學院已上線運營8個月。<br>120個月項目運營計劃穩步推進。</span>
-                        </p>
-                    </div>
-                    <div class="bg-white border-2 border-black p-6 md:p-8 hover:-translate-y-2 hover:shadow-brutal hover:bg-black hover:text-white transition-all duration-300 group flex flex-col justify-between min-h-[300px]">
-                        <div>
-                            <div class="flex justify-between items-start mb-6">
-                                <span class="bg-black text-signal text-xs font-mono font-bold px-2 py-1 group-hover:bg-signal group-hover:text-black">100M BONUS</span>
-                                <i class="fas fa-gift text-4xl text-black group-hover:text-signal"></i>
-                            </div>
-                            <h4 class="font-heavy text-3xl md:text-4xl leading-none mb-4 uppercase">
-                                <span class="lang-en">ALL-MEMBER REWARDS</span>
-                                <span class="lang-zh">全員獎勵</span>
-                            </h4>
-                            <div class="w-12 h-2 bg-signal mb-4"></div>
-                        </div>
-                        <p class="font-mono text-sm leading-relaxed text-gray-800 group-hover:text-gray-300">
-                            <span class="lang-en">Join Genesis Plan. Both members and referees earn team rewards. 100M Token Massive Ecosystem Bonus Release!</span>
-                            <span class="lang-zh">參加 Genesis 計劃，創世會員與被推薦用戶均可共享成團獎勵。<br><span class="text-signal group-hover:text-white font-bold">100,000,000 AIF</span><br>通證鉅額生態紅利震撼釋放！</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- 5. 核心優勢 (NEW STYLE) -->
+    <section class="py-24 px-4 bg-steel border-b-2 border-black">
+        <div class="max-w-7xl mx-auto">
+           <div class="border-4 border-black bg-signal p-4 md:p-8 relative shadow-brutal">
+               <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-black text-signal px-6 py-2 border-2 border-signal z-10 w-4/5 md:w-auto text-center">
+                   <h3 class="font-heavy text-xl md:text-3xl uppercase tracking-widest whitespace-nowrap" data-i18n="core.header">
+                       /// 三大核心優勢 ///
+                   </h3>
+               </div>
+               <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
+                   <div class="bg-white border-2 border-black p-6 md:p-8 hover:-translate-y-2 hover:shadow-brutal hover:bg-black hover:text-white transition-all duration-300 group flex flex-col justify-between h-auto md:min-h-[300px]">
+                       <div>
+                           <div class="flex justify-between items-start mb-6">
+                               <span class="bg-black text-signal text-xs font-mono font-bold px-2 py-1 group-hover:bg-signal group-hover:text-black">VERIFIED</span>
+                               <i class="fas fa-shield-alt text-4xl text-black group-hover:text-signal"></i>
+                           </div>
+                           <h4 class="font-heavy text-3xl md:text-4xl leading-none mb-4 uppercase" data-i18n="core.1.title">
+                               合規主體
+                           </h4>
+                           <div class="w-12 h-2 bg-signal mb-4"></div>
+                       </div>
+                       <p class="font-mono text-sm leading-relaxed text-gray-800 group-hover:text-gray-300" data-i18n="core.1.desc">
+                           香港政府批復合規合法運營主體。<br>支付無憂，生態保障。
+                       </p>
+                   </div>
+                   <div class="bg-white border-2 border-black p-6 md:p-8 hover:-translate-y-2 hover:shadow-brutal hover:bg-black hover:text-white transition-all duration-300 group flex flex-col justify-between h-auto md:min-h-[300px]">
+                       <div>
+                           <div class="flex justify-between items-start mb-6">
+                               <span class="bg-black text-signal text-xs font-mono font-bold px-2 py-1 group-hover:bg-signal group-hover:text-black animate-pulse">LIVE NOW</span>
+                               <i class="fas fa-building text-4xl text-black group-hover:text-signal"></i>
+                           </div>
+                           <h4 class="font-heavy text-3xl md:text-4xl leading-none mb-4 uppercase" data-i18n="core.2.title">
+                               落地項目
+                           </h4>
+                           <div class="w-12 h-2 bg-signal mb-4"></div>
+                       </div>
+                       <p class="font-mono text-sm leading-relaxed text-gray-800 group-hover:text-gray-300" data-i18n="core.2.desc">
+                           已落地項目非空談理想願景。<br>香港AI電影學院已上線運營8個月。<br>120個月項目運營計劃穩步推進。
+                       </p>
+                   </div>
+                   <div class="bg-white border-2 border-black p-6 md:p-8 hover:-translate-y-2 hover:shadow-brutal hover:bg-black hover:text-white transition-all duration-300 group flex flex-col justify-between h-auto md:min-h-[300px]">
+                       <div>
+                           <div class="flex justify-between items-start mb-6">
+                               <span class="bg-black text-signal text-xs font-mono font-bold px-2 py-1 group-hover:bg-signal group-hover:text-black">100M BONUS</span>
+                               <i class="fas fa-gift text-4xl text-black group-hover:text-signal"></i>
+                           </div>
+                           <h4 class="font-heavy text-3xl md:text-4xl leading-none mb-4 uppercase" data-i18n="core.3.title">
+                               全員獎勵
+                           </h4>
+                           <div class="w-12 h-2 bg-signal mb-4"></div>
+                       </div>
+                       <p class="font-mono text-sm leading-relaxed text-gray-800 group-hover:text-gray-300" data-i18n="core.3.desc">
+                           參加 KINGMAKER 計劃，創世會員與被推薦用戶均可共享成團獎勵。<br><span class="text-signal group-hover:text-white font-bold">100,000,000 AIF</span><br>通證鉅額生態紅利震撼釋放！
+                       </p>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </section>
 
-    <section id="logic" class="py-20 px-4 md:px-8 border-b-2 border-black bg-white">
+    <!-- 6. 二二複製 (NEW STYLE & FLOW) -->
+    <section id="logic-2x2" class="py-24 px-4 bg-white border-b-2 border-black">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <span class="font-mono text-signal font-bold tracking-widest uppercase mb-4 block">CORE MECHANISM</span>
-                <h2 class="section-title text-black">
-                    <span class="lang-en">2x2 REPLICATION</span>
-                    <span class="lang-zh">二二複製 · 現金獎勵</span>
+                <h2 class="section-title text-black" data-i18n="2x2.title">
+                    二二複製 · 20/80 法則
                 </h2>
-                <p class="font-mono max-w-3xl mx-auto text-gray-600">
-                    <span class="lang-en">The core task for every Genesis member. Invite 2 users to achieve 100% CASH payback.</span>
-                    <span class="lang-zh">每位創世會員的核心任務。邀請2位新用戶，啟動20%/80%的快速現金回本獎勵，實現零成本獲取10,000 AIF。</span>
+                <p class="font-mono max-w-3xl mx-auto text-gray-600" data-i18n="2x2.desc">
+                    每位賽伯樂的核心任務。邀請2位新用戶，啟動20%/80%的快速現金回本獎勵，實現零成本獲取10,000 AIF。
                 </p>
             </div>
             <div class="relative max-w-4xl mx-auto py-8 md:py-12 md:px-12">
                 <div class="logic-box bg-black text-white p-6 md:p-8 w-full md:w-1/2 mx-auto text-center mb-12 md:mb-16 relative z-10">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-signal text-black px-3 py-1 font-heavy text-sm border-2 border-black whitespace-nowrap">YOU (USER 1)</div>
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-signal text-black px-3 py-1 font-heavy text-sm border-2 border-black whitespace-nowrap">YOU (KINGMAKER)</div>
                     <div class="font-heavy text-3xl mb-2">10,000 AIF</div>
-                    <div class="font-mono text-xs text-gray-400 mb-4">STATUS: GENESIS ACTIVATED</div>
+                    <div class="font-mono text-xs text-gray-400 mb-4">STATUS: ACTIVE</div>
                     <div class="border-t border-gray-700 pt-4 flex justify-between text-sm font-bold text-signal"><span>INVITE A</span><span>INVITE B</span></div>
                 </div>
+                <!-- 移動端隱藏連接線 -->
                 <div class="hidden md:block absolute top-[140px] left-1/2 w-[50%] h-[80px] border-t-2 border-x-2 border-black -translate-x-1/2 -z-0 rounded-t-3xl"></div>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 relative z-10">
                     <div class="logic-box p-6 text-center">
                         <div class="bg-gray-200 text-black inline-block px-3 py-1 font-bold text-xs mb-4">USER A</div>
-                        <h3 class="font-heavy text-lg md:text-xl mb-2"><span class="lang-zh">發送付款截圖 + 您的郵箱</span></h3>
-                        <p class="font-mono text-xs text-gray-500 mb-4">Sends Receipt + User 1's Email</p>
-                        <div class="bg-signal text-black p-4 font-bold border-2 border-black shadow-[4px_4px_0px_0px_#000]">
-                            <span class="lang-en">YOU GET 20% CASH</span>
-                            <span class="lang-zh">您獲得 20% 現金</span>
+                        <h3 class="font-heavy text-lg md:text-xl mb-2" data-i18n="2x2.action">發送付款截圖 + 您的郵箱</h3>
+                        <p class="font-mono text-xs text-gray-500 mb-4">Sends Receipt + Your Email</p>
+                        <div class="bg-signal text-black p-4 font-bold border-2 border-black shadow-[4px_4px_0px_0px_#000]" data-i18n="2x2.reward.a">
+                            您獲得 20% 現金 ($180)
                         </div>
                     </div>
                     <div class="logic-box p-6 text-center">
                         <div class="bg-gray-200 text-black inline-block px-3 py-1 font-bold text-xs mb-4">USER B</div>
-                        <h3 class="font-heavy text-lg md:text-xl mb-2"><span class="lang-zh">發送付款截圖 + 您的郵箱</span></h3>
-                        <p class="font-mono text-xs text-gray-500 mb-4">Sends Receipt + User 1's Email</p>
-                        <div class="bg-black text-white p-4 font-bold border-2 border-black shadow-[4px_4px_0px_0px_#FF3300]">
-                            <span class="lang-en">YOU GET 80% CASH</span>
-                            <span class="lang-zh">您獲得 80% 現金</span>
+                        <h3 class="font-heavy text-lg md:text-xl mb-2" data-i18n="2x2.action">發送付款截圖 + 您的郵箱</h3>
+                        <p class="font-mono text-xs text-gray-500 mb-4">Sends Receipt + Your Email</p>
+                        <div class="bg-black text-white p-4 font-bold border-2 border-black shadow-[4px_4px_0px_0px_#FF3300]" data-i18n="2x2.reward.b">
+                            您獲得 80% 現金 ($720)
                         </div>
                     </div>
                 </div>
@@ -476,88 +302,132 @@
             <div class="mt-16 bg-paper border-2 border-black p-6 md:p-10 max-w-4xl mx-auto">
                 <div class="flex items-center gap-4 mb-6 border-b-2 border-black pb-4">
                     <i class="fas fa-calculator text-3xl text-signal"></i>
-                    <h3 class="font-heavy text-xl md:text-2xl uppercase"><span class="lang-en">Calculation Example</span><span class="lang-zh">收益演示（按第3輪價格）</span></h3>
+                    <h3 class="font-heavy text-xl md:text-2xl uppercase" data-i18n="2x2.calc.title">收益演示 (KINGMAKER)</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-sm">
                     <div class="bg-white border border-black p-4">
                         <div class="text-gray-500 text-xs mb-1">COST (10,000 AIF)</div>
-                        <div class="text-2xl font-bold text-red-600 mb-2">-$600</div>
-                        <div class="text-xs"><span class="lang-zh">您支付 $600 成為會員</span></div>
+                        <div class="text-2xl font-bold text-red-600 mb-2">-$900</div>
+                        <div class="text-xs" data-i18n="2x2.calc.1">您支付 $900 成為賽伯樂</div>
                     </div>
                     <div class="bg-white border border-black p-4">
                         <div class="text-gray-500 text-xs mb-1">INVITE A (20%)</div>
-                        <div class="text-2xl font-bold text-green-600 mb-2">+$120</div>
-                        <div class="text-xs"><span class="lang-zh">用戶A加入，您回血 $120</span></div>
+                        <div class="text-2xl font-bold text-green-600 mb-2">+$180</div>
+                        <div class="text-xs" data-i18n="2x2.calc.2">用戶A加入，您回血 $180</div>
                     </div>
                     <div class="bg-white border border-black p-4">
                         <div class="text-gray-500 text-xs mb-1">INVITE B (80%)</div>
-                        <div class="text-2xl font-bold text-green-600 mb-2">+$480</div>
-                        <div class="text-xs"><span class="lang-zh">用戶B加入，您回血 $480</span></div>
+                        <div class="text-2xl font-bold text-green-600 mb-2">+$720</div>
+                        <div class="text-xs" data-i18n="2x2.calc.3">用戶B加入，您回血 $720</div>
                     </div>
                 </div>
-                <div class="mt-6 p-4 bg-black text-signal font-bold text-center border-2 border-signal text-sm md:text-base">
-                    <span class="lang-zh">總計: $120 + $480 = $600 (100% 回本) + 10,000 AIF 資產</span>
-                    <span class="lang-en">TOTAL: $600 (100% PAYBACK) + 10,000 AIF ASSET</span>
+                <div class="mt-6 p-4 bg-black text-signal font-bold text-center border-2 border-signal text-sm md:text-base" data-i18n="2x2.calc.total">
+                    總計: $180 + $720 = $900 (100% 回本) + 10,000 AIF 資產
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="team" class="py-20 px-4 md:px-8 border-b-2 border-black bg-[#111] text-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-gray-800 pb-8">
-                <div>
-                    <span class="font-mono text-signal font-bold tracking-widest uppercase mb-4 block">TOKEN BONUS</span>
-                    <h2 class="section-title text-white mb-0">
-                        <span class="lang-en">TEAM OF 7</span>
-                        <span class="lang-zh">七人成團 · 通證獎勵</span>
-                    </h2>
-                </div>
-                <div class="font-mono text-xs md:text-sm text-gray-400 mt-4 md:mt-0 max-w-md text-right md:text-left">
-                    <span class="lang-zh">全體成員解鎖10%額外通證獎勵。</span>
-                    <span class="lang-en">All members unlock 10% extra token rewards.</span>
+    <!-- 7. 七人成團 -->
+    <section id="logic-7" class="py-24 px-4 bg-black text-white border-b-2 border-black relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-signal opacity-10 rounded-full blur-3xl"></div>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <span class="font-mono text-signal font-bold tracking-widest uppercase mb-4 block">STEP 2: TOKEN REWARD</span>
+                <h2 class="section-title text-white" data-i18n="team.title">七人成團 · 生態共享</h2>
+                <div class="inline-block bg-white text-black px-6 py-2 font-mono font-bold" data-i18n="team.banner">
+                    全員獎勵 1000 AIF
                 </div>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="relative py-8">
-                    <div class="flex justify-center mb-8"><div class="w-16 h-16 border-2 border-signal bg-black flex items-center justify-center font-bold text-signal rounded-full z-10">YOU</div></div>
-                    <div class="flex justify-center gap-16 mb-8 relative">
-                         <div class="absolute top-[-20px] left-1/2 w-[120px] h-[20px] border-t border-x border-gray-600 -translate-x-1/2 rounded-t-xl"></div>
-                        <div class="w-12 h-12 border border-white bg-gray-800 flex items-center justify-center text-xs rounded-full z-10">A</div>
-                        <div class="w-12 h-12 border border-white bg-gray-800 flex items-center justify-center text-xs rounded-full z-10">B</div>
-                    </div>
-                    <div class="flex justify-center gap-4 md:gap-6 relative">
-                         <div class="absolute top-[-20px] left-[35%] w-[60px] h-[20px] border-t border-x border-gray-700 -translate-x-1/2 rounded-t-lg"></div>
-                         <div class="absolute top-[-20px] right-[35%] w-[60px] h-[20px] border-t border-x border-gray-700 translate-x-1/2 rounded-t-lg"></div>
-                        <div class="w-10 h-10 border border-gray-600 bg-black flex items-center justify-center text-[10px] rounded-full text-gray-500">A1</div>
-                        <div class="w-10 h-10 border border-gray-600 bg-black flex items-center justify-center text-[10px] rounded-full text-gray-500">A2</div>
-                        <div class="w-2 md:w-4"></div>
-                        <div class="w-10 h-10 border border-gray-600 bg-black flex items-center justify-center text-[10px] rounded-full text-gray-500">B1</div>
-                        <div class="w-10 h-10 border border-gray-600 bg-black flex items-center justify-center text-[10px] rounded-full text-gray-500">B2</div>
-                    </div>
-                    <div class="text-center mt-8 font-mono text-xs text-signal">
-                        <span class="lang-zh">結構：1 (您) + 2 (直推) + 4 (間接) = 7人</span>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="relative py-8 flex flex-col items-center scale-90 md:scale-100 origin-center">
+                    <div class="w-16 h-16 bg-signal text-black flex items-center justify-center font-bold text-xl border-2 border-white z-10">YOU</div>
+                    <div class="w-px h-8 bg-white"></div>
+                    <div class="flex gap-8 md:gap-16 mb-8 relative">
+                        <div class="absolute top-[-16px] left-1/2 w-full h-4 border-t border-x border-white -translate-x-1/2"></div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 bg-black border-2 border-white flex items-center justify-center z-10">A</div>
+                            <div class="w-px h-6 bg-white"></div>
+                            <div class="flex gap-2 md:gap-4 relative">
+                                <div class="absolute top-[-10px] left-1/2 w-full h-4 border-t border-x border-white -translate-x-1/2"></div>
+                                <div class="w-10 h-10 bg-gray-800 border border-white flex items-center justify-center text-xs">A1</div>
+                                <div class="w-10 h-10 bg-gray-800 border border-white flex items-center justify-center text-xs">A2</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 bg-black border-2 border-white flex items-center justify-center z-10">B</div>
+                            <div class="w-px h-6 bg-white"></div>
+                            <div class="flex gap-2 md:gap-4 relative">
+                                <div class="absolute top-[-10px] left-1/2 w-full h-4 border-t border-x border-white -translate-x-1/2"></div>
+                                <div class="w-10 h-10 bg-gray-800 border border-white flex items-center justify-center text-xs">B1</div>
+                                <div class="w-10 h-10 bg-gray-800 border border-white flex items-center justify-center text-xs">B2</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="space-y-6">
                     <div class="border border-gray-700 p-6 bg-gray-900 hover:border-signal transition-colors">
-                        <h4 class="font-heavy text-xl mb-2 text-white"><span class="lang-zh">達成條件</span> <span class="lang-en">Condition</span></h4>
-                        <p class="font-mono text-sm text-gray-400">
-                            <span class="lang-zh">當團隊結構滿7人（您+A+B+A1+A2+B1+B2）時，全部成員均達成條件。</span>
-                            <span class="lang-en">When the 7-person structure is complete (You+A+B+A1+A2+B1+B2), ALL members qualify.</span>
+                        <h4 class="font-heavy text-2xl mb-2 text-signal" data-i18n="team.box1.title">結構完成</h4>
+                        <p class="font-mono text-sm text-gray-400" data-i18n="team.box1.desc">
+                            當您團隊結構達到 7 人 (1+2+4) 時，即視為成團。
                         </p>
                     </div>
                     <div class="border border-gray-700 p-6 bg-gray-900 hover:border-signal transition-colors">
-                        <h4 class="font-heavy text-xl mb-2 text-signal"><span class="lang-zh">獲得獎勵</span> <span class="lang-en">Reward</span></h4>
-                        <p class="font-mono text-sm text-gray-400 mb-4">
-                            <span class="lang-zh">所有成員均可獲得各自推薦總額 <span class="text-white font-bold">10%</span> 的 AIF 通證獎勵。</span>
-                            <span class="lang-en">ALL members receive <span class="text-white font-bold">10%</span> of their respective referral total in AIF Tokens.</span>
+                        <h4 class="font-heavy text-2xl mb-2 text-white" data-i18n="team.box2.title">生態共享</h4>
+                        <p class="font-mono text-sm text-gray-400" data-i18n="team.box2.desc">
+                            不只是團隊長，全部 7 名成員每人均可獲得 1000 AIF 的生態獎勵。
                         </p>
-                        <div class="bg-black border border-gray-600 p-3 text-xs font-mono">
-                            <span class="block text-gray-500 mb-1">DISTINCTION:</span>
-                            <span class="lang-zh">二二複製 = 現金獎勵 | 七人成團 = AIF 通證獎勵</span>
-                            <br>
-                            <span class="lang-en">2x2 = Cash Reward | Team of 7 = AIF Token Reward</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 賽伯樂獎金 (Kingmaker) -->
+    <section id="logic-king" class="py-24 px-4 bg-steel border-b-2 border-black">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-black text-gold p-8 md:p-12 border-4 border-gold shadow-gold relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-gold text-black px-6 py-2 font-heavy text-xl transform rotate-0 origin-top-right">ULTIMATE GOAL</div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div>
+                        <span class="font-mono text-white font-bold tracking-widest uppercase mb-4 block">STEP 3: KINGMAKER</span>
+                        <h2 class="section-title text-gold mb-6 leading-none" data-i18n="king.title">賽伯樂獎勵</h2>
+                        <p class="font-mono text-gray-300 mb-8 text-lg" data-i18n="king.desc">
+                            這是給予領導者的最高榮耀。伯樂必須先自己成團，然後幫助您的直推會員成功。
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <i class="fas fa-crown text-3xl text-gold mt-1"></i>
+                                <div>
+                                    <h4 class="font-heavy text-xl text-white mb-1" data-i18n="king.cond.title">條件</h4>
+                                    <p class="font-mono text-sm text-gray-400" data-i18n="king.cond.desc">
+                                        1. 伯樂(您)自己必須先完成七人成團。<br>2. 您的直推會員也完成七人成團。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <i class="fas fa-gem text-3xl text-gold mt-1"></i>
+                                <div>
+                                    <h4 class="font-heavy text-xl text-white mb-1" data-i18n="king.reward.title">獎勵</h4>
+                                    <p class="font-mono text-sm text-gray-400" data-i18n="king.reward.desc">
+                                        每培養一個成團直推，伯樂獲得 <strong class="text-gold text-lg">$1200 USD</strong> 生態獎勵。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-center items-center border-l-0 md:border-l-2 border-gray-800 pl-0 md:pl-12 pt-8 md:pt-0">
+                        <div class="text-center">
+                            <div class="text-6xl md:text-8xl font-heavy text-gold mb-2">$1200</div>
+                            <div class="font-mono text-white text-sm uppercase tracking-widest mb-8">USD REWARD PER SUCCESSFUL REFERRAL</div>
+                            <a href="#activation" class="brutal-btn gold-btn bg-gold text-black border-gold w-full text-xl py-4" data-i18n="king.btn">
+                                立即開始造星
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -565,436 +435,555 @@
         </div>
     </section>
 
-    <section id="ecosystem" class="py-20 px-4 md:px-8 max-w-[1920px] mx-auto border-b-2 border-black bg-paper">
-        <div class="text-center mb-16">
-            <span class="font-mono text-signal font-bold tracking-widest uppercase mb-4 block">ECOSYSTEM</span>
-            <h2 class="section-title text-black"><span class="lang-en">HKAIIFF ECOSYSTEM</span><span class="lang-zh">HKAIIFF 生態系統</span></h2>
-            <p class="font-mono max-w-2xl mx-auto text-gray-600"><span class="lang-en">AI-Driven Film Industry Revolution</span><span class="lang-zh">AI 驅動的電影產業革命，連接創作者、數字資產與觀眾</span></p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <div class="info-card p-8 flex flex-col items-center text-center">
-                <div class="text-5xl md:text-6xl text-signal mb-6"><i class="fas fa-film"></i></div>
-                <h3 class="font-heavy text-2xl mb-4">HKAIIFF <span class="lang-zh">電影節</span></h3>
-                <p class="font-mono text-xs md:text-sm text-gray-600"><span class="lang-zh">香港AI國際電影節，年度盛會展示全球最優秀的AI電影作品。</span></p>
-            </div>
-            <div class="info-card p-8 flex flex-col items-center text-center">
-                <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-store"></i></div>
-                <h3 class="font-heavy text-2xl mb-4">HKAIFM <span class="lang-zh">電影市場</span></h3>
-                <p class="font-mono text-xs md:text-sm text-gray-600"><span class="lang-zh">去中心化電影版權價值平台，通過FilmToken實現價值錨定與分享。</span></p>
-            </div>
-            <div class="info-card p-8 flex flex-col items-center text-center">
-                <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-graduation-cap"></i></div>
-                <h3 class="font-heavy text-2xl mb-4">HKAIFA <span class="lang-zh">電影學院</span></h3>
-                <p class="font-mono text-xs md:text-sm text-gray-600"><span class="lang-zh">專業AI電影製作培訓，培養新一代創作人才。</span></p>
-            </div>
-            <div class="info-card p-8 flex flex-col items-center text-center">
-                <div class="text-5xl md:text-6xl text-signal mb-6"><i class="fas fa-users"></i></div>
-                <h3 class="font-heavy text-2xl mb-4">A2CLUB <span class="lang-zh">精英社群</span></h3>
-                <p class="font-mono text-xs md:text-sm text-gray-600"><span class="lang-zh">高端會員社群，連接電影產業精英與投資者。</span></p>
-            </div>
-            <div class="info-card p-8 flex flex-col items-center text-center">
-                <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-credit-card"></i></div>
-                <h3 class="font-heavy text-2xl mb-4">AIFcard <span class="lang-zh">支付卡</span></h3>
-                <p class="font-mono text-xs md:text-sm text-gray-600"><span class="lang-zh">與Mastercard聯名的Ucard，實現全球便捷支付與消費。</span></p>
-            </div>
-            <div class="info-card p-8 flex flex-col items-center text-center">
-                <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-exchange-alt"></i></div>
-                <h3 class="font-heavy text-2xl mb-4">AIF Exchange</h3>
-                <p class="font-mono text-xs md:text-sm text-gray-600"><span class="lang-zh">專業數字資產交易平台，提供AIF與FilmToken兌換服務。</span></p>
-            </div>
-        </div>
-    </section>
-
+    <!-- NEW SECTION: ABOUT AIF TOKEN (FROM GENESIS) -->
     <section id="token" class="py-20 px-4 md:px-8 bg-black text-white border-y-2 border-white">
         <div class="max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
                 <span class="font-mono text-signal font-bold tracking-widest uppercase mb-4 block">SOLANA POWERED</span>
-                <h2 class="section-title text-white"><span class="lang-en">ABOUT AIF TOKEN</span><span class="lang-zh">關於 AIF 通證</span></h2>
-                <div class="font-mono text-gray-400 space-y-6 text-sm md:text-base leading-relaxed border-l-4 border-signal pl-6">
-                    <p><span class="lang-en">AIF token is the core digital asset of HKAIIFF ecosystem, built on <strong class="text-white">Solana high-performance blockchain</strong>.</span><span class="lang-zh">AIF通證是HKAIIFF生態系統的核心數字資產，建立在<strong class="text-white">Solana高性能區塊鏈</strong>之上。</span></p>
-                    <p><span class="lang-en">As an SPL standard token, AIF is the <strong>"Digital Oil"</strong> for AI film production, essential for computing power settlement and ecosystem governance.</span><span class="lang-zh">作為SPL標準通證，AIF不僅是生態內的結算工具，更是AI電影生產的<strong>“數字石油”</strong>，是獲取算力資源與參與治理的必需工業原料。</span></p>
+                <h2 class="section-title text-white" data-i18n="token.title">關於 AIF 通證</h2>
+                <div class="font-mono text-gray-400 space-y-6 text-sm md:text-base leading-relaxed border-l-4 border-signal pl-6" data-i18n="token.desc">
+                    <p>AIF通證是HKAIIFF生態系統的核心數字資產，建立在<strong class="text-white">Solana高性能區塊鏈</strong>之上。</p>
+                    <p>作為SPL標準通證，AIF不僅是生態內的結算工具，更是AI電影生產的<strong>“數字石油”</strong>，是獲取算力資源與參與治理的必需工業原料。</p>
                 </div>
                 <div class="grid grid-cols-2 gap-4 mt-8">
-                    <div class="border border-white p-4 text-center"><div class="text-3xl font-heavy text-signal">10B</div><div class="text-xs font-mono text-gray-400"><span class="lang-en">Total Supply</span><span class="lang-zh">通證總供應量</span></div></div>
-                    <div class="border border-white p-4 text-center"><div class="text-3xl font-heavy text-signal">$0.06</div><div class="text-xs font-mono text-gray-400"><span class="lang-en">Current Price</span><span class="lang-zh">當前價格</span></div></div>
+                    <div class="border border-white p-4 text-center"><div class="text-3xl font-heavy text-signal">10B</div><div class="text-xs font-mono text-gray-400" data-i18n="token.supply">通證總供應量</div></div>
+                    <div class="border border-white p-4 text-center"><div class="text-3xl font-heavy text-signal">$0.2</div><div class="text-xs font-mono text-gray-400" data-i18n="token.price">統一售價</div></div>
                 </div>
             </div>
             <div>
-                <h3 class="font-heavy text-2xl mb-8 border-b border-gray-700 pb-2"><span class="lang-en">CORE FUNCTIONS</span><span class="lang-zh">AIF通證核心功能</span></h3>
+                <h3 class="font-heavy text-2xl mb-8 border-b border-gray-700 pb-2" data-i18n="token.func.title">AIF通證核心功能</h3>
                 <ul class="space-y-6">
-                    <li class="flex items-start"><i class="fas fa-key text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1"><span class="lang-en">Platform Access</span><span class="lang-zh">平台訪問權限</span></strong><p class="font-mono text-xs text-gray-400"><span class="lang-en">Festival submissions, academy courses, 404.world premium features</span><span class="lang-zh">電影節提交、學院課程、404.world高級功能</span></p></div></li>
-                    <li class="flex items-start"><i class="fas fa-vote-yea text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1"><span class="lang-en">Ecosystem Governance</span><span class="lang-zh">生態治理</span></strong><p class="font-mono text-xs text-gray-400"><span class="lang-en">Participate in platform decisions and resource allocation voting</span><span class="lang-zh">參與平台決策、資源分配投票</span></p></div></li>
-                    <li class="flex items-start"><i class="fas fa-coins text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1"><span class="lang-en">Asset Allocation</span><span class="lang-zh">資產配置機會</span></strong><p class="font-mono text-xs text-gray-400"><span class="lang-en">Participate in FilmToken project subscriptions and secondary market exchange</span><span class="lang-zh">參與FilmToken項目認購、二級市場價值交換</span></p></div></li>
-                    <li class="flex items-start"><i class="fas fa-gift text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1"><span class="lang-en">Node Incentives</span><span class="lang-zh">節點激勵</span></strong><p class="font-mono text-xs text-gray-400"><span class="lang-en">Dynamic ecosystem rewards and value sharing mechanism</span><span class="lang-zh">動態生態獎勵與價值分享機制</span></p></div></li>
+                    <li class="flex items-start"><i class="fas fa-key text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1" data-i18n="token.f1.t">平台訪問權限</strong><p class="font-mono text-xs text-gray-400" data-i18n="token.f1.d">電影節提交、學院課程、404.world高級功能</p></div></li>
+                    <li class="flex items-start"><i class="fas fa-vote-yea text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1" data-i18n="token.f2.t">生態治理</strong><p class="font-mono text-xs text-gray-400" data-i18n="token.f2.d">參與平台決策、資源分配投票</p></div></li>
+                    <li class="flex items-start"><i class="fas fa-coins text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1" data-i18n="token.f3.t">資產配置機會</strong><p class="font-mono text-xs text-gray-400" data-i18n="token.f3.d">參與FilmToken項目認購、二級市場價值交換</p></div></li>
+                    <li class="flex items-start"><i class="fas fa-gift text-signal mt-1 mr-4 text-xl"></i><div><strong class="block font-heavy text-xl mb-1" data-i18n="token.f4.t">節點激勵</strong><p class="font-mono text-xs text-gray-400" data-i18n="token.f4.d">動態生態獎勵與價值分享機制</p></div></li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <section id="invitation" class="py-20 px-4 md:px-8 bg-paper border-b-2 border-black">
+    <!-- 9. 生態系統展示 (NEW STYLE) -->
+    <section id="ecosystem" class="py-24 px-4 bg-paper border-b-2 border-black">
         <div class="max-w-6xl mx-auto">
-            <h2 class="section-title text-center"><span class="lang-en">INVITATION RELEASE</span><span class="lang-zh">通證邀請制釋放</span></h2>
-            <div class="text-center mb-12 font-mono text-sm text-gray-600"><span class="lang-zh">10輪邀請制釋放，每輪限量錢包地址，每個錢包限額10,000 AIF</span></div>
-            <div class="bg-white border-2 border-black p-8 mb-16 max-w-4xl mx-auto shadow-lg relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-signal text-black px-4 py-1 font-bold text-sm">LIVE</div>
-                <h3 class="font-heavy text-2xl md:text-3xl mb-6 text-center border-b-2 border-gray-100 pb-4"><span class="lang-zh">第3輪邀請制進行中！</span></h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-8">
-                    <div><div class="text-sm font-mono text-gray-500 mb-1"><span class="lang-zh">當前價格</span></div><div class="font-heavy text-4xl text-signal">$0.06</div></div>
-                    <div><div class="text-sm font-mono text-gray-500 mb-1"><span class="lang-zh">下輪價格</span></div><div class="font-heavy text-4xl">~$0.07</div></div>
-                    <div>
-                        <div class="text-sm font-mono text-gray-500 mb-1"><span class="lang-zh">當前輪次</span><span class="lang-en">Current Round</span></div>
-                        <div class="font-heavy text-4xl"><span class="lang-en">ROUND 3</span><span class="lang-zh">第 3 輪</span></div>
-                    </div>
+            <h2 class="section-title text-center mb-12" data-i18n="eco.title">6+1+1 生態系統</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="info-card p-8 flex flex-col items-center text-center">
+                    <div class="text-5xl md:text-6xl text-signal mb-6"><i class="fas fa-film"></i></div>
+                    <h3 class="font-heavy text-2xl mb-4">HKAIIFF</h3>
+                    <p class="font-mono text-xs opacity-70" data-i18n="eco.1">香港AI國際電影節，年度盛會展示全球最優秀的AI電影作品。</p>
                 </div>
-                <div class="w-full bg-gray-200 h-4 mb-8 border border-black rounded-full overflow-hidden"><div class="bg-signal h-full" style="width: 67%;"></div></div>
-                <div class="text-center"><a href="#activation" class="brutal-btn bg-black text-white hover:bg-signal hover:text-black border-black px-8 py-4 text-lg"><span class="lang-zh">立即申請參與第3輪</span></a></div>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                 <div class="border border-black bg-white p-6 text-center opacity-60"><div class="text-xs font-mono text-gray-500 mb-2"><span class="lang-zh">第2輪</span></div><div class="font-heavy text-3xl mb-2">$0.055</div><div class="text-xs font-mono">Ended</div></div>
-                <div class="border-4 border-signal bg-black text-white p-6 text-center transform md:scale-105 shadow-xl relative"><div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-signal text-black px-2 py-1 text-xs font-bold font-mono">CURRENT</div><div class="text-xs font-mono text-gray-400 mb-2"><span class="lang-zh">第3輪</span></div><div class="font-heavy text-4xl mb-2">$0.06</div><div class="text-xs font-mono text-signal">3000 Wallets</div></div>
-                 <div class="border border-black bg-white p-6 text-center opacity-60"><div class="text-xs font-mono text-gray-500 mb-2"><span class="lang-zh">第4-10輪</span></div><div class="font-heavy text-3xl mb-2">~$0.07</div><div class="text-xs font-mono">4K-10K Wallets</div></div>
-                 <div class="border border-black bg-white p-6 text-center opacity-40"><div class="text-xs font-mono text-red-500 mb-2 font-bold"><span class="lang-zh">公開兌換</span></div><div class="font-heavy text-3xl mb-2 text-red-500">$0.20</div><div class="text-xs font-mono">TBD</div></div>
+                <div class="info-card p-8 flex flex-col items-center text-center">
+                    <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-store"></i></div>
+                    <h3 class="font-heavy text-2xl mb-4">HKAIFM</h3>
+                    <p class="font-mono text-xs opacity-70" data-i18n="eco.2">去中心化電影版權價值平台，通過FilmToken實現價值錨定與分享。</p>
+                </div>
+                <div class="info-card p-8 flex flex-col items-center text-center">
+                    <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-graduation-cap"></i></div>
+                    <h3 class="font-heavy text-2xl mb-4">HKAIFA</h3>
+                    <p class="font-mono text-xs opacity-70" data-i18n="eco.3">專業AI電影製作培訓，培養新一代創作人才。</p>
+                </div>
+                <div class="info-card p-8 flex flex-col items-center text-center">
+                    <div class="text-5xl md:text-6xl text-signal mb-6"><i class="fas fa-users"></i></div>
+                    <h3 class="font-heavy text-2xl mb-4">404.WORLD</h3>
+                    <p class="font-mono text-xs opacity-70" data-i18n="eco.4">去中心化流媒體與元宇宙空間。</p>
+                </div>
+                <div class="info-card p-8 flex flex-col items-center text-center">
+                    <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-exchange-alt"></i></div>
+                    <h3 class="font-heavy text-2xl mb-4">AIF.EXCHANGE</h3>
+                    <p class="font-mono text-xs opacity-70" data-i18n="eco.5">專業數字資產交易平台，提供AIF與FilmToken兌換服務。</p>
+                </div>
+                <div class="info-card p-8 flex flex-col items-center text-center">
+                    <div class="text-5xl md:text-6xl text-black mb-6"><i class="fas fa-layer-group"></i></div>
+                    <h3 class="font-heavy text-2xl mb-4">AIF.CENTER</h3>
+                    <p class="font-mono text-xs opacity-70" data-i18n="eco.6">全鏈條服務中心，賦能創作者。</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="activation" class="py-20 px-4 md:px-8 bg-signal">
-        <div class="max-w-5xl mx-auto bg-white border-4 border-black p-6 md:p-12 shadow-[15px_15px_0px_0px_#000]">
-            <h2 class="section-title text-center mb-12">
-                <span class="lang-en">ACTIVATE GENESIS</span>
-                <span class="lang-zh">激活創世權限</span>
-            </h2>
-
-            <div class="mb-12 border-b-2 border-dashed border-gray-300 pb-8">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="w-12 h-12 bg-black text-white flex items-center justify-center font-heavy text-2xl">1</div>
-                    <h3 class="font-heavy text-xl md:text-2xl">PAYMENT / <span class="lang-zh">支付 (第一步)</span></h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button onclick="openModal('cryptoModal')" class="brutal-btn w-full justify-between group">
-                        <span>CRYPTO (USDT/USDC)</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                    </button>
-                    <button onclick="openModal('fiatModal')" class="brutal-btn secondary w-full justify-between group">
-                        <span class="lang-zh">法幣支付 (USD/HKD/JPY...)</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                    </button>
-                </div>
+    <!-- 10. 激活與確權 -->
+    <section id="activation" class="py-24 px-4 bg-signal">
+        <div class="max-w-4xl mx-auto bg-white border-4 border-black p-6 md:p-12 shadow-[15px_15px_0px_0px_#000]">
+            <h2 class="section-title text-center mb-8" data-i18n="act.title">開啟KINGMAKER計劃</h2>
+            <p class="text-center font-mono mb-8 font-bold text-lg">PRICE: 900 USD</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <button onclick="openModal('cryptoModal')" class="brutal-btn w-full justify-between bg-black text-white hover:bg-gray-800">
+                    <span>CRYPTO (USDT)</span> <i class="fas fa-wallet"></i>
+                </button>
+                <button onclick="openModal('fiatModal')" class="brutal-btn secondary w-full justify-between">
+                    <span data-i18n="act.fiat">法幣支付 (Wise)</span> <i class="fas fa-credit-card"></i>
+                </button>
             </div>
 
-            <div class="mb-8">
-                 <div class="flex items-center gap-4 mb-4">
-                    <div class="w-12 h-12 bg-signal text-black flex items-center justify-center font-heavy text-2xl border-2 border-black">2</div>
-                    <h3 class="font-heavy text-xl md:text-2xl">VERIFICATION / <span class="lang-zh">提交憑證 (關鍵)</span></h3>
+            <div class="bg-paper border-2 border-black p-6">
+                <h3 class="font-heavy text-xl mb-4 border-b-2 border-black pb-2 flex items-center gap-2">
+                    <i class="fas fa-fingerprint"></i> <span data-i18n="act.validator">確權生成器</span>
+                </h3>
+                
+                <div class="flex mb-6 text-sm font-mono border-2 border-black">
+                    <button onclick="setMode('new')" id="btn-new" class="flex-1 py-3 bg-black text-white text-center transition-colors">
+                        <span data-i18n="act.new">我是新船長</span>
+                    </button>
+                    <button onclick="setMode('invite')" id="btn-invite" class="flex-1 py-3 bg-white text-gray-400 hover:text-black text-center transition-colors border-l-2 border-black">
+                        <span data-i18n="act.invited">我是被邀請的</span>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block font-mono text-xs font-bold mb-1"><span data-i18n="act.wallet">您的接收錢包 (SOL/BSC)</span> *</label>
+                        <input type="text" id="input-wallet" class="w-full border-2 border-black p-3 font-mono focus:bg-yellow-50 outline-none" placeholder="e.g. 3QBgQi...">
+                    </div>
+                    
+                    <div id="referrer-group" class="hidden animate-fade-in">
+                        <label class="block font-mono text-xs font-bold mb-1 text-signal"><span data-i18n="act.ref">推薦人信息 (綁定伯樂獎)</span> *</label>
+                        <input type="text" id="input-referrer" class="w-full border-2 border-signal p-3 font-mono focus:bg-yellow-50 outline-none" placeholder="Referrer's Email or Wallet">
+                        <p class="text-[10px] font-mono text-gray-500 mt-1"><span data-i18n="act.ref_note">注意：必須填寫才能激活二二複製現金獎和七人成團獎勵。</span></p>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-white border border-gray-300 p-4 font-mono text-xs text-gray-600 break-all" id="email-preview">
+                    Please fill details above...
+                </div>
+
+                <div class="mt-6 flex flex-col md:flex-row gap-4">
+                    <button onclick="sendEmail()" class="brutal-btn bg-signal text-black w-full flex-1"><span data-i18n="act.launch">啟動郵件</span></button>
+                    <button onclick="copyContent()" class="brutal-btn secondary w-full flex-1"><span data-i18n="act.copy">複製內容</span></button>
                 </div>
                 
-                <div class="bg-paper border-2 border-black p-6 md:p-8">
-                    <p class="font-mono text-sm mb-6 text-center text-gray-600">
-                        <span class="lang-zh">為了確保您的<strong>二二複製現金獎</strong>與<strong>七人成團通證獎</strong>能夠準確發放，<br>請務必使用下方的生成器提交數據。</span>
-                        <span class="lang-en">To ensure accurate <strong>Cash Rewards</strong> & <strong>Token Bonuses</strong>,<br>please use the generator below.</span>
-                    </p>
-
-                    <div class="flex border-b-2 border-black mb-6">
-                        <button onclick="switchTab('new')" id="tab-new" class="flex-1 py-3 font-bold font-mono text-sm md:text-base bg-black text-white transition-colors">
-                            <span class="lang-zh">我是新船長 (無推薦人)</span>
-                            <span class="lang-en">I am New Captain (No Referrer)</span>
-                        </button>
-                        <button onclick="switchTab('invited')" id="tab-invited" class="flex-1 py-3 font-bold font-mono text-sm md:text-base bg-white text-gray-400 hover:text-black transition-colors">
-                            <span class="lang-zh">我是被邀請的 (綁定關係)</span>
-                            <span class="lang-en">I was Invited (Bind Relationship)</span>
-                        </button>
-                    </div>
-
-                    <div class="bg-white border border-black p-6 shadow-lg relative">
-                        
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block font-bold font-mono text-xs mb-1">
-                                    <span class="lang-zh">您的接收錢包地址 (Solana/BSC)</span>
-                                    <span class="lang-en">Your Wallet Address</span>
-                                    <span class="text-signal">*</span>
-                                </label>
-                                <input type="text" id="input-wallet" class="w-full border-2 border-black p-3 font-mono text-sm focus:outline-none focus:bg-yellow-50" placeholder="e.g. 3QBgQiHC...">
-                            </div>
-
-                            <div id="referrer-field" class="hidden bg-yellow-50 p-4 border border-dashed border-gray-400">
-                                <label class="block font-bold font-mono text-xs mb-1 text-signal">
-                                    <span class="lang-zh">推薦人信息 (郵箱或錢包地址)</span>
-                                    <span class="lang-en">Referrer Info (Email or Wallet)</span>
-                                    <span class="text-signal">*</span>
-                                </label>
-                                <input type="text" id="input-referrer" class="w-full border-2 border-signal p-3 font-mono text-sm focus:outline-none" placeholder="Enter Referrer info to bind rewards">
-                                <p class="text-[10px] text-gray-500 mt-1">
-                                    <span class="lang-zh">注意：填寫此項才能激活成团獎勵。</span>
-                                    <span class="lang-en">Note: Required for 2x2 Cash Reward binding.</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 border-t border-gray-200 pt-4">
-                            <p class="text-xs font-bold mb-2 text-gray-400">EMAIL PREVIEW / 預覽:</p>
-                            <div id="email-preview-box" class="bg-gray-100 p-4 font-mono text-xs text-gray-600 break-all border border-gray-300">
-                                Please fill in the details above...
-                            </div>
-                        </div>
-
-                        <div class="mt-6 flex flex-col md:flex-row gap-4">
-                            <button onclick="generateAndSend()" class="brutal-btn bg-signal text-black hover:bg-black hover:text-white border-signal flex-1 justify-center py-4">
-                                <span class="lang-zh">啟動郵件客戶端發送</span>
-                                <span class="lang-en">LAUNCH EMAIL APP</span>
-                            </button>
-                            <button onclick="copyGeneratedContent()" class="brutal-btn secondary flex-1 justify-center py-4">
-                                <span class="lang-zh">複製內容 (手動發送)</span>
-                                <span class="lang-en">COPY CONTENT</span>
-                            </button>
-                        </div>
-
-                        <div class="mt-4 text-center">
-                             <p class="text-xs font-bold text-red-600 animate-pulse">
-                                <i class="fas fa-exclamation-triangle mr-1"></i>
-                                <span class="lang-zh">重要提示：發送郵件時，請務必手動粘貼您的【付款截圖】！</span>
-                                <span class="lang-en">IMPORTANT: You MUST manually ATTACH your PAYMENT SCREENSHOT!</span>
-                            </p>
-                            <p class="mt-2 text-xs text-gray-400">
-                                Official: genesis@aif.market
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center font-mono text-xs text-gray-500 font-bold bg-white p-3 border border-black inline-block mx-auto w-full">
-                <i class="fas fa-check-circle text-signal mr-2"></i>
-                <span class="lang-zh">系统將根據郵件標題自動歸檔，请不要删除或修改生成数据，24小時內完成審核與關係綁定。</span>
-                <span class="lang-en">Staff will auto-file based on subject. Verification within 24h.</span>
+                <p class="text-center font-mono text-[10px] text-red-600 font-bold mt-4 animate-pulse">
+                    <span data-i18n="act.warn">⚠️ 請務必在郵件中手動粘貼【付款截圖】！</span>
+                </p>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="bg-black text-steel py-16 px-4 border-t-2 border-signal">
         <div class="max-w-7xl mx-auto text-center">
-            <h2 class="font-heavy text-5xl md:text-6xl mb-2 tracking-tighter">AIF<span class="text-signal">GENESIS</span></h2>
-            <p class="font-mono text-sm md:text-base text-gray-400 mb-12 tracking-widest uppercase">
-                <span class="lang-zh">全球首個AI原生電影生態創世計劃</span>
+            <h2 class="font-heavy text-5xl md:text-6xl mb-2 tracking-tighter">AIF<span class="text-signal">KINGMAKER</span></h2>
+            <p class="font-mono text-sm md:text-base text-gray-400 mb-12 tracking-widest uppercase" data-i18n="footer.tag">
+                全球首個AI原生電影生態伯樂計劃
             </p>
             <div class="font-mono text-xs md:text-sm text-gray-500 space-y-2">
-                <div><span class="lang-zh">聯繫我們：genesis@aif.market</span></div>
+                <div><span data-i18n="footer.contact">聯繫我們：</span>king@aif.market</div>
                 <div>© 2026 HKAIIFF ASSOCIATION. ALL RIGHTS RESERVED.</div>
-                <div class="max-w-2xl mx-auto text-[10px] leading-relaxed pt-4 border-t border-gray-900 mt-4">
-                    <span class="lang-zh">本網站不構成投資建議。資產配置前請諮詢專業財務顧問。</span>
+                <div class="max-w-2xl mx-auto text-[10px] leading-relaxed pt-4 border-t border-gray-900 mt-4" data-i18n="footer.disc">
+                    本網站不構成投資建議。資產配置前請諮詢專業財務顧問。
                 </div>
             </div>
         </div>
     </footer>
 
-    <div id="cryptoModal" class="modal-overlay">
-        <div class="modal-content p-6 md:p-8">
-            <button onclick="closeModal('cryptoModal')" class="absolute top-4 right-4 text-2xl font-bold hover:text-signal">&times;</button>
-            <h2 class="font-heavy text-2xl md:text-3xl mb-6 border-b-2 border-black pb-2">
-                <span class="lang-en">CRYPTO EXCHANGE</span><span class="lang-zh">加密貨幣兌換</span>
-            </h2>
-            <div class="font-mono text-sm mb-6">
-                <p class="mb-2 font-bold bg-gray-200 p-2 inline-block"><span class="lang-zh">OPTION 1: SOLANA (推薦)</span></p>
-                <p class="mb-2 text-xs"><span class="lang-zh">請發送 <strong>USDT</strong> 或 <strong>USDC</strong> 至以下 Solana 地址：</span></p>
-                <div class="bg-white border-2 border-black p-3 mb-2 break-all font-bold select-all text-xs md:text-sm">
-                    3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv
-                </div>
-                <button onclick="copyText('3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv')" class="brutal-btn w-full mb-6 py-2 text-xs"><span class="lang-zh">複製 SOLANA 地址</span></button>
-                <div class="border-t-2 border-dashed border-gray-400 pt-4">
-                    <p class="mb-2 font-bold bg-gray-200 p-2 inline-block"><span class="lang-zh">OPTION 2: BINANCE (BSC/BEP20)</span></p>
-                    <p class="mb-2 text-xs"><span class="lang-zh">或發送至幣安錢包地址：</span></p>
-                    <div class="bg-white border-2 border-black p-3 mb-2 break-all font-bold select-all text-xs md:text-sm">
-                        0xc059dc798ec9f31e765d9cccffd2c62b993857c9
+    <!-- 加密支付彈窗 -->
+    <div id="cryptoModal" class="modal-overlay hidden">
+        <div class="modal-content p-8">
+            <div class="flex justify-between items-center mb-6 border-b-2 border-black pb-2">
+                <h3 class="font-heavy text-2xl">CRYPTO PAYMENT</h3>
+                <button onclick="closeModal('cryptoModal')" class="text-2xl font-bold">&times;</button>
+            </div>
+            <div class="space-y-6 font-mono text-sm">
+                <div>
+                    <span class="bg-black text-white px-2 py-1 text-xs font-bold">SOLANA (USDT/USDC)</span>
+                    <div class="bg-white border-2 border-black p-3 mt-2 break-all font-bold cursor-pointer hover:bg-gray-100" onclick="copyText('3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv')">
+                        3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv <i class="fas fa-copy ml-2 text-gray-400"></i>
                     </div>
-                    <button onclick="copyText('0xc059dc798ec9f31e765d9cccffd2c62b993857c9')" class="brutal-btn secondary w-full mb-4 py-2 text-xs"><span class="lang-zh">複製 BINANCE 地址</span></button>
-                    <div class="p-2 bg-signal text-black font-bold text-xs">⚠️ NETWORK: BSC BNB Smart Chain (BEP20)</div>
+                </div>
+                <div>
+                    <span class="bg-gray-200 text-black px-2 py-1 text-xs font-bold">BSC (USDT/USDC)</span>
+                    <div class="bg-white border-2 border-black p-3 mt-2 break-all font-bold cursor-pointer hover:bg-gray-100" onclick="copyText('0xc059dc798ec9f31e765d9cccffd2c62b993857c9')">
+                        0xc059dc798ec9f31e765d9cccffd2c62b993857c9 <i class="fas fa-copy ml-2 text-gray-400"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="fiatModal" class="modal-overlay">
-        <div class="modal-content p-6 md:p-8">
-            <button onclick="closeModal('fiatModal')" class="absolute top-4 right-4 text-2xl font-bold hover:text-signal">&times;</button>
-            <h2 class="font-heavy text-2xl md:text-3xl mb-6 border-b-2 border-black pb-2">
-                <span class="lang-en">FIAT EXCHANGE</span><span class="lang-zh">法定貨幣兌換</span>
-            </h2>
-            <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 font-mono">
-                <a href="https://wise.com/pay/r/2Cd46UMrecZcXdQ" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇺🇸</span><div><div class="font-bold group-hover:text-signal">USD</div><div class="text-xs text-gray-500 group-hover:text-gray-300">$622.00</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
-                <a href="https://wise.com/pay/r/vYRES8taWtWJny4" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇯🇵</span><div><div class="font-bold group-hover:text-signal">JPY</div><div class="text-xs text-gray-500 group-hover:text-gray-300">¥96,800</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
-                <a href="https://wise.com/pay/r/50Ezgo0kXcMwckI" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇭🇰</span><div><div class="font-bold group-hover:text-signal">HKD</div><div class="text-xs text-gray-500 group-hover:text-gray-300">HK$4,840</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
-                <a href="https://wise.com/pay/r/0KzIDoow1Pufm8o" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇦🇪</span><div><div class="font-bold group-hover:text-signal">AED</div><div class="text-xs text-gray-500 group-hover:text-gray-300">AED 2,285</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
-                <a href="https://wise.com/pay/r/pq7WXVB4RAQoQq4" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇸🇬</span><div><div class="font-bold group-hover:text-signal">SGD</div><div class="text-xs text-gray-500 group-hover:text-gray-300">S$804.00</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
-                <a href="https://wise.com/pay/r/2wp3XarRjI1CSIA" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇪🇺</span><div><div class="font-bold group-hover:text-signal">EUR</div><div class="text-xs text-gray-500 group-hover:text-gray-300">€532.00</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
-                <a href="https://wise.com/pay/r/ddruO9FgC1HawTw" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇹🇭</span><div><div class="font-bold group-hover:text-signal">THB</div><div class="text-xs text-gray-500 group-hover:text-gray-300">฿19,602</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
-                <a href="https://wise.com/pay/r/louWsG-u4etiE7k" target="_blank" class="block border-2 border-black p-4 hover:bg-black hover:text-white transition-colors group flex justify-between items-center bg-white"><div class="flex items-center gap-4 text-black group-hover:text-white"><span class="text-2xl">🇬🇧</span><div><div class="font-bold group-hover:text-signal">GBP</div><div class="text-xs text-gray-500 group-hover:text-gray-300">£467.00</div></div></div><i class="fas fa-arrow-right text-black group-hover:text-white"></i></a>
+    <!-- 法幣支付彈窗 -->
+    <div id="fiatModal" class="modal-overlay hidden">
+        <div class="modal-content p-8">
+            <div class="flex justify-between items-center mb-6 border-b-2 border-black pb-2">
+                <h3 class="font-heavy text-2xl">WISE PAYMENT</h3>
+                <button onclick="closeModal('fiatModal')" class="text-2xl font-bold">&times;</button>
             </div>
-             <div class="mt-6 font-mono text-xs text-gray-600 bg-paper p-4 border border-black">
-                💡 <span class="lang-en">After transfer, send receipt and your Solana wallet address to <strong>genesis@aif.market</strong></span>
-                <span class="lang-zh">支付完成後，請務必截圖並執行頁面下方的“發送憑證”步驟。</span>
+            <div class="grid grid-cols-2 gap-4 font-mono text-sm">
+                <a href="https://wise.com/pay/r/dhfd4b3-uNnJMAE" target="_blank" class="border-2 border-black p-3 hover:bg-black hover:text-white flex justify-between items-center"><span>🇺🇸 USD</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wise.com/pay/r/bSCky3pisd55sO4" target="_blank" class="border-2 border-black p-3 hover:bg-black hover:text-white flex justify-between items-center"><span>🇭🇰 HKD</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wise.com/pay/r/sajUMCSA5umupvI" target="_blank" class="border-2 border-black p-3 hover:bg-black hover:text-white flex justify-between items-center"><span>🇯🇵 JPY</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wise.com/pay/r/MblmsTRkMqhN_rA" target="_blank" class="border-2 border-black p-3 hover:bg-black hover:text-white flex justify-between items-center"><span>🇪🇺 EUR</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wise.com/pay/r/R6tswRwUqr_KN2U" target="_blank" class="border-2 border-black p-3 hover:bg-black hover:text-white flex justify-between items-center"><span>🇬🇧 GBP</span><i class="fas fa-arrow-right"></i></a>
+                <a href="https://wise.com/pay/r/zJEqci6iJN1mFpw" target="_blank" class="border-2 border-black p-3 hover:bg-black hover:text-white flex justify-between items-center"><span>🇦🇪 AED</span><i class="fas fa-arrow-right"></i></a>
             </div>
+            <p class="mt-6 text-xs font-mono text-gray-500">*Links open Wise payment gateways.</p>
         </div>
     </div>
 
     <script>
-        // 1. LOADER
-        window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            tl.to("#loader", { yPercent: -100, duration: 0.8, ease: "power4.inOut", delay: 0.8 });
-            tl.from(".hero-title span", { y: 100, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out" }, "-=0.3");
-            updatePreview(); // Initialize Email Preview
-        });
+        // 1. 初始化與加載動畫
+        window.onload = () => {
+            gsap.to("#loader", { yPercent: -100, duration: 0.8, delay: 1, ease: "power4.inOut" });
+            updateEmailPreview();
+        };
 
-        // 2. LANGUAGE SWITCHER
-        let currentLang = 'en';
-        function switchLang() {
-            currentLang = currentLang === 'en' ? 'zh' : 'en';
-            document.body.classList.remove('en', 'zh');
-            document.body.classList.add(currentLang);
-            updatePreview(); // Refresh Preview Text
+        // 2. 多語言數據庫 (Including new content for all languages)
+        const i18n = {
+            zh: {
+                "compliance.title": "IMPORTANT STATEMENT", 
+                "compliance.intro1": "You are about to enter HKAIIFF Digital Asset Service Area.", 
+                "compliance.intro2": "This service is provided by a Hong Kong entity and governed by Hong Kong laws.", 
+                "compliance.confirm": "Please confirm:", 
+                "compliance.1": "I am not a resident of mainland China", 
+                "compliance.2": "I am not a U.S. citizen or resident", 
+                "compliance.3": "I am participating with my own offshore assets", 
+                "compliance.4": "I am aware of digital asset risks", 
+                "compliance.5": "I voluntarily bear all risks", 
+                "compliance.6": "I have read and agree to \"User Agreement\" & \"Risk Disclosure Statement\"", 
+                "compliance.btn": "進入系統",
+                "nav.2x2": "二二複製", "nav.team": "七人成團", "nav.king": "賽伯樂獎", "nav.token": "AIF 通證", "nav.eco": "生態系統", "nav.activate": "開啟KINGMAKER計劃",
+                "hero.tag": "賽伯樂計劃：1億 AIF 獎勵池已開啟", "hero.desc": "900 USD 創世節點 · 贈送 10,000 AIF · 二二複製回本 · 七人成團獲利 · 伯樂 $1200 獎勵", "hero.btn1": "成為賽伯樂", "hero.btn2": "查看規則",
+                
+                // New Core Section
+                "core.header": "/// 三大核心優勢 ///",
+                "core.1.title": "合規主體", "core.1.desc": "香港政府批復合規合法運營主體。<br>支付無憂，生態保障。",
+                "core.2.title": "落地項目", "core.2.desc": "已落地項目非空談理想願景。<br>香港AI電影學院已上線運營8個月。<br>120個月項目運營計劃穩步推進。",
+                "core.3.title": "全員獎勵", "core.3.desc": "參加 KINGMAKER 計劃，創世會員與被推薦用戶均可共享成團獎勵。<br><span class=\"text-signal group-hover:text-white font-bold\">100,000,000 AIF</span><br>通證鉅額生態紅利震撼釋放！",
+
+                // 2x2 New
+                "2x2.title": "二二複製 · 20/80 法則", "2x2.desc": "每位賽伯樂的核心任務。邀請2位新用戶，啟動20%/80%的快速現金回本獎勵，實現零成本獲取10,000 AIF。",
+                "2x2.action": "發送付款截圖 + 您的郵箱",
+                "2x2.reward.a": "您獲得 20% 現金 ($180)",
+                "2x2.reward.b": "您獲得 80% 現金 ($720)",
+                "2x2.calc.title": "收益演示 (KINGMAKER)",
+                "2x2.calc.1": "您支付 $900 成為賽伯樂",
+                "2x2.calc.2": "用戶A加入，您回血 $180",
+                "2x2.calc.3": "用戶B加入，您回血 $720",
+                "2x2.calc.total": "總計: $180 + $720 = $900 (100% 回本) + 10,000 AIF 資產",
+
+                // Token New
+                "token.title": "關於 AIF 通證",
+                "token.desc": "<p>AIF通證是HKAIIFF生態系統的核心數字資產，建立在<strong class=\"text-white\">Solana高性能區塊鏈</strong>之上。</p><p>作為SPL標準通證，AIF不僅是生態內的結算工具，更是AI電影生產的<strong>“數字石油”</strong>，是獲取算力資源與參與治理的必需工業原料。</p>",
+                "token.supply": "通證總供應量", "token.price": "統一售價",
+                "token.func.title": "AIF通證核心功能",
+                "token.f1.t": "平台訪問權限", "token.f1.d": "電影節提交、學院課程、404.world高級功能",
+                "token.f2.t": "生態治理", "token.f2.d": "參與平台決策、資源分配投票",
+                "token.f3.t": "資產配置機會", "token.f3.d": "參與FilmToken項目認購、二級市場價值交換",
+                "token.f4.t": "節點激勵", "token.f4.d": "動態生態獎勵與價值分享機制",
+
+                "team.title": "七人成團 · 生態共享", "team.banner": "全員獎勵 1000 AIF", "team.box1.title": "結構完成", "team.box1.desc": "當您團隊結構達到 7 人 (1+2+4) 時，即視為成團。", "team.box2.title": "生態共享", "team.box2.desc": "不只是團隊長，全部 7 名成員每人均可獲得 1000 AIF 的生態獎勵。",
+                "king.title": "賽伯樂獎勵", "king.desc": "這是給予領導者的最高榮耀。伯樂必須先自己成團，然後幫助您的直推會員成功。", "king.cond.title": "條件", "king.cond.desc": "1. 伯樂(您)自己必須先完成七人成團。<br>2. 您的直推會員也完成七人成團。", "king.reward.title": "獎勵", "king.reward.desc": "每培養一個成團直推，伯樂獲得 $1200 USD 生態獎勵。", "king.btn": "立即開始造星",
+                "eco.title": "6+1+1 生態系統", "eco.1":"香港AI國際電影節，年度盛會展示全球最優秀的AI電影作品。", "eco.2":"去中心化電影版權價值平台，通過FilmToken實現價值錨定與分享。", "eco.3":"專業AI電影製作培訓，培養新一代創作人才。", "eco.4":"去中心化流媒體與元宇宙空間。", "eco.5":"專業數字資產交易平台，提供AIF與FilmToken兌換服務。", "eco.6":"全鏈條服務中心，賦能創作者。",
+                "act.title": "開啟KINGMAKER計劃", "act.fiat": "法幣支付 (Wise)", "act.validator": "確權生成器", "act.new": "我是新船長", "act.invited": "我是被邀請的", "act.wallet": "您的接收錢包 (SOL/BSC)", "act.ref": "推薦人信息 (綁定伯樂獎)", "act.ref_note": "注意：必須填寫才能激活二二複製現金獎和七人成團獎勵。", "act.launch": "啟動郵件", "act.copy": "複製內容", "act.warn": "⚠️ 請務必在郵件中手動粘貼【付款截圖】！",
+
+                "footer.tag": "全球首個AI原生電影生態伯樂計劃",
+                "footer.contact": "聯繫我們：",
+                "footer.disc": "本網站不構成投資建議。資產配置前請諮詢專業財務顧問。"
+            },
+            en: {
+                "compliance.title": "IMPORTANT STATEMENT", "compliance.intro1": "You are about to enter HKAIIFF Digital Asset Service Area.", "compliance.intro2": "This service is provided by a Hong Kong entity and governed by Hong Kong laws.", "compliance.confirm": "Please confirm:", "compliance.1": "I am not a resident of mainland China", "compliance.2": "I am not a U.S. citizen or resident", "compliance.3": "I am participating with my own offshore assets", "compliance.4": "I am aware of digital asset risks", "compliance.5": "I voluntarily bear all risks", "compliance.6": "I have read and agree to \"User Agreement\" & \"Risk Disclosure Statement\"", "compliance.btn": "ENTER SYSTEM",
+                "nav.2x2": "2x2 Replication", "nav.team": "Team of 7", "nav.king": "Kingmaker", "nav.token": "Token", "nav.eco": "Ecosystem", "nav.activate": "Open KINGMAKER",
+                "hero.tag": "KINGMAKER: 100M AIF POOL LIVE", "hero.desc": "900 USD Genesis Node · 10,000 AIF Gift · 2x2 Payback · Team Reward · $1200 Kingmaker Bounty", "hero.btn1": "BECOME KINGMAKER", "hero.btn2": "VIEW RULES",
+                
+                // New Core Section
+                "core.header": "/// CORE ADVANTAGES ///",
+                "core.1.title": "COMPLIANCE", "core.1.desc": "Hong Kong Gov approved legal entity. Secure payments. Ecosystem guarantee.",
+                "core.2.title": "REALIZED", "core.2.desc": "HK AI Film Academy live for 8 months. 120-month project roadmap executing steadily.",
+                "core.3.title": "ALL-MEMBER REWARDS", "core.3.desc": "Join KINGMAKER Plan. Both members and referees earn team rewards.<br><span class=\"text-signal group-hover:text-white font-bold\">100M AIF</span><br>Massive Ecosystem Bonus Release!",
+
+                // 2x2 New
+                "2x2.title": "2x2 Replication · 20/80 Rule", "2x2.desc": "Core task for every Kingmaker. Invite 2 users to trigger 20%/80% cash rewards, achieving 100% payback and zero-cost 10,000 AIF.",
+                "2x2.action": "Send Receipt + Your Email",
+                "2x2.reward.a": "YOU GET 20% CASH ($180)",
+                "2x2.reward.b": "YOU GET 80% CASH ($720)",
+                "2x2.calc.title": "Calculation (KINGMAKER)",
+                "2x2.calc.1": "You pay $900 to join",
+                "2x2.calc.2": "User A joins, you get $180",
+                "2x2.calc.3": "User B joins, you get $720",
+                "2x2.calc.total": "TOTAL: $180 + $720 = $900 (100% Payback) + 10,000 AIF Asset",
+
+                // Token New
+                "token.title": "ABOUT AIF TOKEN",
+                "token.desc": "<p>AIF token is the core digital asset of HKAIIFF ecosystem, built on <strong class=\"text-white\">Solana high-performance blockchain</strong>.</p><p>As an SPL standard token, AIF is the <strong>\"Digital Oil\"</strong> for AI film production, essential for computing power settlement and ecosystem governance.</p>",
+                "token.supply": "Total Supply", "token.price": "Market Price",
+                "token.func.title": "CORE FUNCTIONS",
+                "token.f1.t": "Platform Access", "token.f1.d": "Festival submissions, academy courses, 404.world premium features",
+                "token.f2.t": "Ecosystem Governance", "token.f2.d": "Participate in platform decisions and resource allocation voting",
+                "token.f3.t": "Asset Allocation", "token.f3.d": "Participate in FilmToken project subscriptions and secondary market exchange",
+                "token.f4.t": "Node Incentives", "token.f4.d": "Dynamic ecosystem rewards and value sharing mechanism",
+
+                "team.title": "Team of 7 · Shared Reward", "team.banner": "1000 AIF FOR ALL", "team.box1.title": "Structure Complete", "team.box1.desc": "When your structure reaches 7 people (1+2+4), the team is complete.", "team.box2.title": "Shared Reward", "team.box2.desc": "Not just the leader, ALL 7 members receive 1000 AIF ecosystem reward each.",
+                "king.title": "Kingmaker Reward", "king.desc": "Highest honor for leaders. You must complete your team first, then help your direct referrals succeed.", "king.cond.title": "Conditions", "king.cond.desc": "1. You (Kingmaker) complete a Team of 7.<br>2. Your direct referral completes a Team of 7.", "king.reward.title": "Reward", "king.reward.desc": "For every qualified referral, Kingmaker gets $1200 USD reward.", "king.btn": "START BUILDING",
+                "eco.title": "6+1+1 Ecosystem", "eco.1":"AI International Film Festival", "eco.2":"Film Market Platform", "eco.3":"AI Film Academy", "eco.4":"Decentralized Streaming", "eco.5":"Asset Exchange", "eco.6":"Service Center",
+                "act.title": "OPEN KINGMAKER PLAN", "act.fiat": "Fiat (Wise)", "act.validator": "Validator", "act.new": "I am New Captain", "act.invited": "I was Invited", "act.wallet": "Your Wallet (SOL/BSC)", "act.ref": "Referrer Info (Bind Kingmaker)", "act.ref_note": "Note: Required for 2x2 Cash Reward & Team Reward binding.", "act.launch": "LAUNCH MAIL", "act.copy": "COPY CONTENT", "act.warn": "⚠️ You MUST manually ATTACH your PAYMENT SCREENSHOT!",
+
+                "footer.tag": "World's First AI Native Film Ecosystem Kingmaker Plan",
+                "footer.contact": "Contact: ",
+                "footer.disc": "This website does not constitute investment advice. Please consult a professional financial advisor before asset allocation."
+            },
+            ja: {
+                "compliance.title": "IMPORTANT STATEMENT", "compliance.intro1": "You are about to enter HKAIIFF Digital Asset Service Area.", "compliance.intro2": "This service is provided by a Hong Kong entity and governed by Hong Kong laws.", "compliance.confirm": "Please confirm:", "compliance.1": "I am not a resident of mainland China", "compliance.2": "I am not a U.S. citizen or resident", "compliance.3": "I am participating with my own offshore assets", "compliance.4": "I am aware of digital asset risks", "compliance.5": "I voluntarily bear all risks", "compliance.6": "I have read and agree to \"User Agreement\" & \"Risk Disclosure Statement\"", "compliance.btn": "ENTER SYSTEM",
+                "nav.2x2": "2x2 複製", "nav.team": "7人チーム", "nav.king": "キングメーカー", "nav.token": "AIFトークン", "nav.eco": "エコシステム", "nav.activate": "KINGMAKER計画を開始",
+                "hero.tag": "キングメーカー：1億AIF報酬プール公開", "hero.desc": "900ドル ジェネシスノード · 10,000 AIF贈呈 · 2x2 元本回収 · チーム報酬 · 1200ドル キングメーカー報酬", "hero.btn1": "キングメーカーになる", "hero.btn2": "ルールを見る",
+
+                // Core
+                "core.header": "/// 3つの主要な利点 ///",
+                "core.1.title": "コンプライアンス", "core.1.desc": "香港政府承認の法的事業体。<br>安全な支払い、エコシステムの保証。",
+                "core.2.title": "実用化プロジェクト", "core.2.desc": "AI映画アカデミーは既に8ヶ月運営中。<br>120ヶ月のロードマップを着実に実行。",
+                "core.3.title": "全員報酬", "core.3.desc": "KINGMAKER計画に参加。会員と紹介者の両方がチーム報酬を獲得。<br><span class=\"text-signal group-hover:text-white font-bold\">1億 AIF</span><br>大規模なエコシステムボーナスを解放！",
+
+                // 2x2
+                "2x2.title": "2x2 複製 · 20/80 ルール", "2x2.desc": "キングメーカーの核心任務。2人を招待して20%/80%の現金報酬を起動し、コストゼロで10,000 AIFを獲得。",
+                "2x2.action": "支払い証跡 + メール送信",
+                "2x2.reward.a": "20% 現金獲得 ($180)",
+                "2x2.reward.b": "80% 現金獲得 ($720)",
+                "2x2.calc.title": "収益シミュレーション",
+                "2x2.calc.1": "$900 支払って参加",
+                "2x2.calc.2": "ユーザーA参加、180ドル回収",
+                "2x2.calc.3": "ユーザーB参加、720ドル回収",
+                "2x2.calc.total": "合計: $180 + $720 = $900 (100%回収) + 10,000 AIF",
+
+                // Token
+                "token.title": "AIFトークンについて",
+                "token.desc": "<p>AIFトークンは、<strong class=\"text-white\">Solana高性能ブロックチェーン</strong>上に構築されたHKAIIFFエコシステムの核心デジタル資産です。</p><p>SPL標準トークンとして、AIFは決済ツールであるだけでなく、AI映画制作の<strong>「デジタル石油」</strong>であり、計算リソースの取得やガバナンス参加に不可欠です。</p>",
+                "token.supply": "総供給量", "token.price": "市場参考価格",
+                "token.func.title": "コア機能",
+                "token.f1.t": "アクセス権限", "token.f1.d": "映画祭応募、アカデミー講座、404.world機能",
+                "token.f2.t": "エコシステム統治", "token.f2.d": "プラットフォームの意思決定と投票に参加",
+                "token.f3.t": "資産配分", "token.f3.d": "FilmTokenプロジェクトの購読と二次市場交換",
+                "token.f4.t": "ノードインセンティブ", "token.f4.d": "動的なエコシステム報酬と価値共有メカニズム",
+
+                "team.title": "7人チーム · 報酬共有", "team.banner": "全員に1000 AIF", "team.box1.title": "構造完了", "team.box1.desc": "チーム構造が7人（1+2+4）に達すると、チームは完了とみなされます。", "team.box2.title": "報酬共有", "team.box2.desc": "リーダーだけでなく、メンバー7人全員がそれぞれ1000 AIFを受け取ります。",
+                "king.title": "キングメーカー報酬", "king.desc": "リーダーにとっての最高の名誉。まず自分のチームを完成させ、次に直推メンバーの成功を支援します。", "king.cond.title": "条件", "king.cond.desc": "1. あなた（キングメーカー）が7人チームを完成させる。<br>2. あなたの直推メンバーが7人チームを完成させる。", "king.reward.title": "報酬", "king.reward.desc": "資格のある紹介1人につき、キングメーカーは1200ドルの報酬を得ます。", "king.btn": "構築を開始",
+                "eco.title": "6+1+1 エコシステム", "eco.1":"AI国際映画祭", "eco.2":"映画市場プラットフォーム", "eco.3":"AI映画アカデミー", "eco.4":"分散型ストリーミング", "eco.5":"資産取引所", "eco.6":"サービスセンター",
+                "act.title": "KINGMAKER計画を開始", "act.fiat": "法定通貨 (Wise)", "act.validator": "バリデーター", "act.new": "新規キャプテン", "act.invited": "招待された方", "act.wallet": "あなたのウォレット (SOL/BSC)", "act.ref": "紹介者情報 (必須)", "act.ref_note": "注意：2x2現金報酬と7人チーム報酬の紐付けに必要です。", "act.launch": "メールを起動", "act.copy": "内容をコピー", "act.warn": "⚠️ 支払いスクリーンショットを手動で添付してください！",
+
+                "footer.tag": "世界初のAIネイティブ映画エコシステム・キングメーカー計画",
+                "footer.contact": "お問い合わせ：",
+                "footer.disc": "当ウェブサイトは投資助言を構成するものではありません。資産配分の前に専門のファイナンシャルアドバイザーにご相談ください。"
+            },
+            ko: {
+                "compliance.title": "IMPORTANT STATEMENT", "compliance.intro1": "You are about to enter HKAIIFF Digital Asset Service Area.", "compliance.intro2": "This service is provided by a Hong Kong entity and governed by Hong Kong laws.", "compliance.confirm": "Please confirm:", "compliance.1": "I am not a resident of mainland China", "compliance.2": "I am not a U.S. citizen or resident", "compliance.3": "I am participating with my own offshore assets", "compliance.4": "I am aware of digital asset risks", "compliance.5": "I voluntarily bear all risks", "compliance.6": "I have read and agree to \"User Agreement\" & \"Risk Disclosure Statement\"", "compliance.btn": "ENTER SYSTEM",
+                "nav.2x2": "2x2 복제", "nav.team": "7인 팀", "nav.king": "킹메이커", "nav.token": "AIF 토큰", "nav.eco": "생태계", "nav.activate": "KINGMAKER 계획 시작",
+                "hero.tag": "킹메이커: 1억 AIF 보상 풀 오픈", "hero.desc": "900 USD 제네시스 노드 · 10,000 AIF 증정 · 2x2 원금 회수 · 팀 보상 · $1200 킹메이커 보상", "hero.btn1": "킹메이커 되기", "hero.btn2": "규칙 보기",
+                
+                // Core
+                "core.header": "/// 3대 핵심 이점 ///",
+                "core.1.title": "규정 준수", "core.1.desc": "홍콩 정부 승인 법적 운영 주체.<br>안전한 결제, 생태계 보장.",
+                "core.2.title": "실현된 프로젝트", "core.2.desc": "AI 영화 아카데미 8개월째 운영 중.<br>120개월 프로젝트 로드맵 꾸준히 실행.",
+                "core.3.title": "전원 보상", "core.3.desc": "KINGMAKER 계획 참여. 회원과 추천인 모두 팀 보상 공유.<br><span class=\"text-signal group-hover:text-white font-bold\">1억 AIF</span><br>거대 생태계 보너스 방출!",
+
+                // 2x2
+                "2x2.title": "2x2 복제 · 20/80 법칙", "2x2.desc": "킹메이커의 핵심 임무. 2명을 초대하여 20%/80% 현금 보상을 시작하고, 비용 없이 10,000 AIF를 획득하세요.",
+                "2x2.action": "영수증 + 이메일 전송",
+                "2x2.reward.a": "20% 현금 획득 ($180)",
+                "2x2.reward.b": "80% 현금 획득 ($720)",
+                "2x2.calc.title": "수익 시뮬레이션",
+                "2x2.calc.1": "$900 지불하고 참여",
+                "2x2.calc.2": "유저 A 참여, $180 회수",
+                "2x2.calc.3": "유저 B 참여, $720 회수",
+                "2x2.calc.total": "합계: $180 + $720 = $900 (100% 회수) + 10,000 AIF",
+
+                // Token
+                "token.title": "AIF 토큰 정보",
+                "token.desc": "<p>AIF 토큰은 <strong class=\"text-white\">Solana 고성능 블록체인</strong> 위에 구축된 HKAIIFF 생태계의 핵심 디지털 자산입니다.</p><p>SPL 표준 토큰으로서, AIF는 결제 도구일 뿐만 아니라 AI 영화 제작의 <strong>'디지털 석유'</strong>이며, 컴퓨팅 자원 확보 및 거버넌스 참여에 필수적입니다.</p>",
+                "token.supply": "총 공급량", "token.price": "시장 참고 가격",
+                "token.func.title": "핵심 기능",
+                "token.f1.t": "접근 권한", "token.f1.d": "영화제 출품, 아카데미 과정, 404.world 기능",
+                "token.f2.t": "생태계 거버넌스", "token.f2.d": "플랫폼 의사 결정 및 투표 참여",
+                "token.f3.t": "자산 배분", "token.f3.d": "FilmToken 프로젝트 구독 및 2차 시장 교환",
+                "token.f4.t": "노드 인센티브", "token.f4.d": "동적 생태계 보상 및 가치 공유 메커니즘",
+
+                "team.title": "7인 팀 · 보상 공유", "team.banner": "전원 1000 AIF", "team.box1.title": "구조 완성", "team.box1.desc": "팀 구조가 7명(1+2+4)에 도달하면 팀이 완성됩니다.", "team.box2.title": "보상 공유", "team.box2.desc": "리더뿐만 아니라 7명 멤버 전원이 각각 1000 AIF를 받습니다.",
+                "king.title": "킹메이커 보상", "king.desc": "리더를 위한 최고의 영예. 먼저 본인의 팀을 완성하고, 직추천 멤버의 성공을 도우세요.", "king.cond.title": "조건", "king.cond.desc": "1. 본인(킹메이커)이 7인 팀을 완성해야 함.<br>2. 직추천 멤버가 7인 팀을 완성해야 함.", "king.reward.title": "보상", "king.reward.desc": "자격 있는 추천 1명당 킹메이커는 $1200 USD를 받습니다.", "king.btn": "구축 시작",
+                "eco.title": "6+1+1 생태계", "eco.1":"AI 국제 영화제", "eco.2":"필름 마켓 플랫폼", "eco.3":"AI 필름 아카데미", "eco.4":"탈중앙화 스트리밍", "eco.5":"자산 거래소", "eco.6":"서비스 센터",
+                "act.title": "KINGMAKER 계획 시작", "act.fiat": "법정화폐 (Wise)", "act.validator": "검증기", "act.new": "신규 캡틴", "act.invited": "초대받음", "act.wallet": "지갑 주소 (SOL/BSC)", "act.ref": "추천인 정보 (필수)", "act.ref_note": "주의: 2x2 현금 보상 및 7인 팀 보상 연결에 필요합니다.", "act.launch": "메일 실행", "act.copy": "내용 복사", "act.warn": "⚠️ 반드시 결제 스크린샷을 수동으로 첨부하세요!",
+
+                "footer.tag": "세계 최초 AI 네이티브 영화 생태계 킹메이커 플랜",
+                "footer.contact": "문의: ",
+                "footer.disc": "본 웹사이트는 투자 조언을 구성하지 않습니다. 자산 배분 전 전문 재무 고문과 상담하십시오."
+            },
+            ar: {
+                "compliance.title": "IMPORTANT STATEMENT", "compliance.intro1": "You are about to enter HKAIIFF Digital Asset Service Area.", "compliance.intro2": "This service is provided by a Hong Kong entity and governed by Hong Kong laws.", "compliance.confirm": "Please confirm:", "compliance.1": "I am not a resident of mainland China", "compliance.2": "I am not a U.S. citizen or resident", "compliance.3": "I am participating with my own offshore assets", "compliance.4": "I am aware of digital asset risks", "compliance.5": "I voluntarily bear all risks", "compliance.6": "I have read and agree to \"User Agreement\" & \"Risk Disclosure Statement\"", "compliance.btn": "ENTER SYSTEM",
+                "nav.2x2": "نسخ 2x2", "nav.team": "فريق من 7", "nav.king": "صانع الملوك", "nav.token": "رمز AIF", "nav.eco": "النظام البيئي", "nav.activate": "ابدأ خطة KINGMAKER",
+                "hero.tag": "Kingmaker: تم إطلاق مجمع مكافآت 100 مليون AIF", "hero.desc": "900 دولار عقدة التكوين · هدية 10,000 AIF · استرداد 2x2 · مكافأة الفريق · مكافأة صانع الملوك 1200 دولار", "hero.btn1": "كن صانع ملوك", "hero.btn2": "عرض القواعد",
+                
+                // Core
+                "core.header": "/// المزايا الأساسية الثلاث ///",
+                "core.1.title": "الامتثال", "core.1.desc": "كيان قانوني معتمد من حكومة هونغ كونغ.<br>مدفوعات آمنة، ضمان النظام البيئي.",
+                "core.2.title": "مشاريع محققة", "core.2.desc": "أكاديمية أفلام الذكاء الاصطناعي تعمل منذ 8 أشهر.<br>خارطة طريق المشروع لمدة 120 شهرًا تنفذ بثبات.",
+                "core.3.title": "مكافآت للجميع", "core.3.desc": "انضم إلى خطة KINGMAKER. يحصل كل من الأعضاء والمحيلين على مكافآت الفريق.<br><span class=\"text-signal group-hover:text-white font-bold\">100 مليون AIF</span><br>إطلاق مكافأة ضخمة للنظام البيئي!",
+
+                // 2x2
+                "2x2.title": "نسخ 2x2 · قاعدة 20/80", "2x2.desc": "المهمة الأساسية لكل صانع ملوك. قم بدعوة مستخدمين اثنين لتفعيل مكافآت نقدية بنسبة 20%/80%، والحصول على 10,000 AIF بتكلفة صفرية.",
+                "2x2.action": "أرسل الإيصال + بريدك الإلكتروني",
+                "2x2.reward.a": "تحصل على 20% نقدًا ($180)",
+                "2x2.reward.b": "تحصل على 80% نقدًا ($720)",
+                "2x2.calc.title": "حساب العائد (KINGMAKER)",
+                "2x2.calc.1": "تدفع 900 دولار للانضمام",
+                "2x2.calc.2": "ينضم المستخدم A، تسترد 180 دولارًا",
+                "2x2.calc.3": "ينضم المستخدم B، تسترد 720 دولارًا",
+                "2x2.calc.total": "الإجمالي: $180 + $720 = $900 (استرداد 100%) + 10,000 AIF",
+
+                // Token
+                "token.title": "حول رمز AIF",
+                "token.desc": "<p>رمز AIF هو الأصل الرقمي الأساسي لنظام HKAIIFF البيئي، المبني على <strong class=\"text-white\">بلوكتشين Solana عالية الأداء</strong>.</p><p>بصفته رمزًا بمعيار SPL، فإن AIF ليس مجرد أداة تسوية، بل هو <strong>\"النفط الرقمي\"</strong> لإنتاج أفلام الذكاء الاصطناعي، وهو ضروري للحصول على موارد الحوسبة والمشاركة في الحوكمة.</p>",
+                "token.supply": "إجمالي العرض", "token.price": "سعر السوق",
+                "token.func.title": "الوظائف الأساسية",
+                "token.f1.t": "صلاحية الدخول", "token.f1.d": "تقديمات المهرجان، دورات الأكاديمية، ميزات 404.world",
+                "token.f2.t": "حوكمة النظام البيئي", "token.f2.d": "المشاركة في قرارات المنصة والتصويت",
+                "token.f3.t": "تخصيص الأصول", "token.f3.d": "الاشتراك في مشاريع FilmToken والتبادل في السوق الثانوية",
+                "token.f4.t": "حوافز العقد", "token.f4.d": "مكافآت النظام البيئي الديناميكية وآلية مشاركة القيمة",
+
+                "team.title": "فريق من 7 · مكافأة مشتركة", "team.banner": "1000 AIF للجميع", "team.box1.title": "اكتمل الهيكل", "team.box1.desc": "عندما يصل هيكل الفريق إلى 7 أشخاص (1+2+4)، يعتبر الفريق مكتملاً.", "team.box2.title": "مكافأة مشتركة", "team.box2.desc": "ليس القائد فقط، بل يحصل جميع الأعضاء السبعة على مكافأة 1000 AIF لكل منهم.",
+                "king.title": "مكافأة صانع الملوك", "king.desc": "أعلى شرف للقادة. يجب عليك إكمال فريقك أولاً، ثم مساعدة إحالاتك المباشرة على النجاح.", "king.cond.title": "الشروط", "king.cond.desc": "1. أنت (صانع الملوك) تكمل فريقاً من 7.<br>2. إحالتك المباشرة تكمل فريقاً من 7.", "king.reward.title": "المكافأة", "king.reward.desc": "مقابل كل إحالة مؤهلة، يحصل صانع الملوك على مكافأة قدرها 1200 دولار.", "king.btn": "ابدأ البناء",
+                "eco.title": "نظام بيئي 6+1+1", "eco.1":"مهرجان الفيلم الدولي بالذكاء الاصطناعي", "eco.2":"منصة سوق الأفلام", "eco.3":"أكاديمية أفلام الذكاء الاصطناعي", "eco.4":"بث لامركزي", "eco.5":"بورصة الأصول", "eco.6":"مركز الخدمات",
+                "act.title": "ابدأ خطة KINGMAKER", "act.fiat": "عملة ورقية (Wise)", "act.validator": "المتحقق", "act.new": "أنا قائد جديد", "act.invited": "تمت دعوتي", "act.wallet": "محفظتك (SOL/BSC)", "act.ref": "معلومات المحيل (مطلوب)", "act.ref_note": "ملاحظة: مطلوب لربط المكافأة النقدية 2x2 ومكافأة الفريق المكون من 7.", "act.launch": "تشغيل البريد", "act.copy": "نسخ المحتوى", "act.warn": "⚠️ يجب عليك إرفاق لقطة شاشة الدفع يدوياً!",
+
+                "footer.tag": "أول خطة صانع ملوك لنظام بيئي للأفلام يعتمد على الذكاء الاصطناعي في العالم",
+                "footer.contact": "اتصل بنا: ",
+                "footer.disc": "هذا الموقع لا يشكل نصيحة استثمارية. يرجى استشارة مستشار مالي محترف قبل تخصيص الأصول."
+            }
+        };
+
+        // 3. 語言切換邏輯
+        let currentLang = 'zh';
+        function changeLang(lang) {
+            currentLang = lang;
+            
+            // RTL 處理
+            if (lang === 'ar') document.body.classList.add('rtl');
+            else document.body.classList.remove('rtl');
+
+            // 按鈕文字更新
+            const langNames = { 'zh': '繁體中文', 'en': 'English', 'ja': '日本語', 'ko': '한국어', 'ar': 'العربية' };
+            document.getElementById('current-lang').textContent = langNames[lang];
+
+            // 內容替換
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+            });
+
+            updateEmailPreview();
         }
 
-        // 3. MOBILE MENU
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('active');
-            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
+        // 4. UI 交互功能
+        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('active'); }
+        function openModal(id) { 
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden'); 
+            modal.style.opacity = '1';
+            modal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+        }
+        function closeModal(id) { 
+            const modal = document.getElementById(id);
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            }, 500); // Wait for transition
+            document.body.classList.remove('modal-open');
         }
 
-        // 4. MODALS
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
-
-        // 5. COPY FUNCTION
-        function copyText(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => showToast("Copied / 已複製"));
+        // 5. 合規檢查
+        function checkCompliance() {
+            const checks = document.querySelectorAll('.compliance-check');
+            const btn = document.getElementById('complianceBtn');
+            const allChecked = Array.from(checks).every(c => c.checked);
+            
+            btn.disabled = !allChecked;
+            if (allChecked) {
+                btn.classList.remove('bg-gray-300', 'text-gray-500', 'border-gray-400', 'disabled:cursor-not-allowed');
+                btn.classList.add('bg-black', 'text-signal', 'border-black', 'cursor-pointer');
             } else {
-                let textArea = document.createElement("textarea");
-                textArea.value = text;
-                textArea.style.position = "fixed"; document.body.appendChild(textArea);
-                textArea.focus(); textArea.select();
-                try { document.execCommand('copy'); showToast("Copied / 已複製"); } catch (err) {}
-                document.body.removeChild(textArea);
+                btn.classList.add('bg-gray-300', 'text-gray-500', 'border-gray-400', 'disabled:cursor-not-allowed');
+                btn.classList.remove('bg-black', 'text-signal', 'border-black', 'cursor-pointer');
             }
         }
         
+        // 綁定事件監聽
+        document.querySelectorAll('.compliance-check').forEach(el => {
+            el.addEventListener('change', checkCompliance);
+        });
+
+        // 6. 接受協議並進入
+        function acceptCompliance() {
+            const modal = document.getElementById('complianceModal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }, 500);
+        }
+
+        // 7. 複製功能
+        function copyText(txt) {
+            navigator.clipboard.writeText(txt).then(() => showToast('Copied!'));
+        }
         function showToast(msg) {
-            let toast = document.createElement('div');
-            toast.className = 'toast-message'; toast.innerText = msg;
-            document.body.appendChild(toast);
-            requestAnimationFrame(() => toast.classList.add('show'));
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => document.body.removeChild(toast), 300); }, 2000);
+            let t = document.createElement('div'); t.className = 'toast-message show'; t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 2000);
         }
 
-        // 6. ACTIVATION GENERATOR LOGIC
-        let activeTab = 'new';
-
-        function switchTab(tab) {
-            activeTab = tab;
-            const tabNew = document.getElementById('tab-new');
-            const tabInvited = document.getElementById('tab-invited');
-            const refField = document.getElementById('referrer-field');
-
-            if (tab === 'new') {
-                tabNew.className = "flex-1 py-3 font-bold font-mono text-sm md:text-base bg-black text-white transition-colors border-r border-gray-600";
-                tabInvited.className = "flex-1 py-3 font-bold font-mono text-sm md:text-base bg-white text-gray-400 hover:text-black transition-colors";
-                refField.classList.add('hidden');
-            } else {
-                tabNew.className = "flex-1 py-3 font-bold font-mono text-sm md:text-base bg-white text-gray-400 hover:text-black transition-colors border-r border-gray-600";
-                tabInvited.className = "flex-1 py-3 font-bold font-mono text-sm md:text-base bg-black text-white transition-colors";
-                refField.classList.remove('hidden');
-            }
-            updatePreview();
+        // 8. 郵件生成器
+        let mode = 'new';
+        function setMode(m) {
+            mode = m;
+            document.getElementById('btn-new').className = mode === 'new' ? "flex-1 py-3 bg-black text-white text-center transition-colors" : "flex-1 py-3 bg-white text-gray-400 hover:text-black text-center transition-colors border-r-2 border-black";
+            document.getElementById('btn-invite').className = mode === 'invite' ? "flex-1 py-3 bg-black text-white text-center transition-colors border-l-2 border-black" : "flex-1 py-3 bg-white text-gray-400 hover:text-black text-center transition-colors border-l-2 border-black";
+            document.getElementById('referrer-group').style.display = mode === 'invite' ? 'block' : 'none';
+            updateEmailPreview();
         }
 
-        document.getElementById('input-wallet').addEventListener('input', updatePreview);
-        document.getElementById('input-referrer').addEventListener('input', updatePreview);
+        document.querySelectorAll('input').forEach(i => i.addEventListener('input', updateEmailPreview));
 
-        function getFormData() {
-            const wallet = document.getElementById('input-wallet').value.trim() || "[WALLET_ADDRESS]";
-            const referrer = document.getElementById('input-referrer').value.trim() || "[REFERRER_INFO]";
-            let subject = "";
-            let body = "";
-
-            if (activeTab === 'new') {
-                subject = `[ACTIVATE_NEW] Wallet: ${wallet.substring(0,6)}...`;
-                if (currentLang === 'zh') {
-                    body = `【申请激活：新船长节点】\n\n1. 我的接收地址：${wallet}\n2. 支付凭证：(请在附件中上传截图)\n\n----------------\n系统备注：此用户为首个节点，无推荐关系。`;
-                } else {
-                    body = `[ACTIVATION REQUEST: NEW CAPTAIN]\n\n1. My Wallet: ${wallet}\n2. Payment Proof: (Please Attach Screenshot)\n\n----------------\nSystem Note: Root Node, No Referrer.`;
-                }
+        function getEmailData() {
+            const wallet = document.getElementById('input-wallet').value || "[WALLET]";
+            const ref = document.getElementById('input-referrer').value || "[REFERRER]";
+            
+            let subject = "", body = "";
+            
+            // 郵件內容根據語言切換
+            const isZh = currentLang === 'zh';
+            
+            if(mode === 'new') {
+                subject = `[NEW_KINGMAKER] Activate: ${wallet.substring(0,6)}...`;
+                body = isZh 
+                    ? `【申請激活：新賽伯樂節點】\n\n1. 接收地址：${wallet}\n2. 支付憑證：(請見附件)\n\n--- 系統標記：無推薦人，開啟新矩陣 ---`
+                    : `[REQUEST: NEW KINGMAKER]\n\n1. Wallet: ${wallet}\n2. Receipt: (Attached)\n\n--- System: New Matrix Root ---`;
             } else {
-                subject = `[ACTIVATE_BIND] Wallet: ${wallet.substring(0,6)}... Ref: ${referrer.substring(0,6)}...`;
-                if (currentLang === 'zh') {
-                    body = `【申请激活：绑定推荐关系】\n\n1. 我的接收地址：${wallet}\n2. 推荐人信息：${referrer}\n3. 支付凭证：(请在附件中上传截图)\n\n----------------\n系统备注：请根据推荐人信息绑定二二复制及七人成团关系。`;
-                } else {
-                    body = `[ACTIVATION REQUEST: BINDING]\n\n1. My Wallet: ${wallet}\n2. Referrer: ${referrer}\n3. Payment Proof: (Please Attach Screenshot)\n\n----------------\nSystem Note: Bind 2x2 and Team Structure based on Referrer.`;
-                }
+                subject = `[BIND_KINGMAKER] Wallet: ${wallet.substring(0,6)}... Ref: ${ref.substring(0,6)}...`;
+                body = isZh
+                    ? `【申請激活：綁定推薦關係】\n\n1. 接收地址：${wallet}\n2. 推薦人：${ref}\n3. 支付憑證：(請見附件)\n\n--- 系統標記：綁定二二複製 (20%/80%) & 賽伯樂獎 (1200 USD) ---`
+                    : `[REQUEST: BINDING]\n\n1. Wallet: ${wallet}\n2. Referrer: ${ref}\n3. Receipt: (Attached)\n\n--- System: Bind 2x2 (20%/80%) & Kingmaker Bonus ($1200) ---`;
             }
             return { subject, body };
         }
 
-        function updatePreview() {
-            const data = getFormData();
-            const previewBox = document.getElementById('email-preview-box');
-            previewBox.innerHTML = `<strong>Subject:</strong> ${data.subject}<br><br>${data.body.replace(/\n/g, '<br>')}`;
+        function updateEmailPreview() {
+            const data = getEmailData();
+            document.getElementById('email-preview').innerHTML = `<strong>Subject:</strong> ${data.subject}<br><br>${data.body.replace(/\n/g, '<br>')}`;
         }
 
-        function generateAndSend() {
-            const wallet = document.getElementById('input-wallet').value.trim();
-            const referrer = document.getElementById('input-referrer').value.trim();
-
-            if (!wallet) {
-                alert(currentLang === 'zh' ? "请输入您的钱包地址" : "Please enter your wallet address");
-                return;
-            }
-            if (activeTab === 'invited' && !referrer) {
-                alert(currentLang === 'zh' ? "为了绑定奖励关系，请填写推荐人信息" : "Referrer info is required for reward binding");
-                return;
-            }
-
-            const data = getFormData();
-            const mailtoLink = `mailto:genesis@aif.market?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
-            window.location.href = mailtoLink;
+        function sendEmail() {
+            const data = getEmailData();
+            window.location.href = `mailto:king@aif.market?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
         }
 
-        function copyGeneratedContent() {
-            const data = getFormData();
-            const textToCopy = `To: genesis@aif.market\nSubject: ${data.subject}\n\n${data.body}`;
-            copyText(textToCopy);
+        function copyContent() {
+            const data = getEmailData();
+            navigator.clipboard.writeText(`To: king@aif.market\nSubject: ${data.subject}\n\n${data.body}`).then(() => showToast('Copied'));
         }
 
-        // 7. ANIMATIONS
-        gsap.registerPlugin(ScrollTrigger);
+        // 9. 滾動動畫 (GSAP)
         gsap.utils.toArray('.logic-box').forEach(box => {
-            gsap.from(box, {
-                y: 50, opacity: 0, duration: 0.8,
-                scrollTrigger: { trigger: box, start: "top 85%" }
-            });
+            gsap.from(box, { y: 50, opacity: 0, duration: 0.8, scrollTrigger: { trigger: box, start: "top 85%" }});
         });
-
-        // 8. COMPLIANCE
-        function checkCompliance() {
-            const checkboxes = document.querySelectorAll('.compliance-check');
-            const btn = document.getElementById('complianceBtn');
-            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-            
-            if (allChecked) {
-                btn.disabled = false;
-                btn.classList.remove('bg-gray-400', 'text-gray-700', 'border-gray-500', 'cursor-not-allowed');
-                btn.classList.add('bg-black', 'text-white', 'border-black', 'hover:bg-signal', 'hover:text-white', 'cursor-pointer');
-            } else {
-                btn.disabled = true;
-                btn.classList.add('bg-gray-400', 'text-gray-700', 'border-gray-500', 'cursor-not-allowed');
-                btn.classList.remove('bg-black', 'text-white', 'border-black', 'hover:bg-signal', 'hover:text-white', 'cursor-pointer');
-            }
-        }
-
-        function acceptCompliance() {
-            const modal = document.getElementById('complianceModal');
-            gsap.to(modal, { opacity: 0, duration: 0.5, onComplete: () => { modal.style.display = 'none'; document.body.style.overflow = 'auto'; }});
-        }
+        gsap.utils.toArray('.info-card').forEach(card => {
+            gsap.from(card, { y: 30, opacity: 0, duration: 0.6, scrollTrigger: { trigger: card, start: "top 90%" }});
+        });
     </script>
 </body>
 </html>
