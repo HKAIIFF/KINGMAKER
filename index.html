@@ -385,7 +385,7 @@
         </div>
     </section>
 
-    <!-- 8. 伯樂與賽伯樂獎 (UPDATED) -->
+    <!-- 8. 伯樂與賽伯樂獎 (UPDATED & OPTIMIZED) -->
     <section id="logic-king" class="py-24 px-4 bg-steel border-b-2 border-black">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
@@ -395,88 +395,93 @@
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
                 <!-- 伯樂獎 -->
-                <div class="bg-white border-4 border-black p-8 relative hover:shadow-[10px_10px_0px_0px_#000] transition-all duration-300">
-                     <div class="absolute -top-4 left-6 bg-black text-white px-4 py-1 font-heavy text-sm">MENTOR (1 STAR)</div>
-                     <h3 class="font-heavy text-4xl mb-4 mt-4" data-i18n="bole.title">伯樂獎</h3>
-                     <p class="font-mono text-gray-600 mb-8 h-auto min-h-[60px]" data-i18n="bole.desc">
-                         幫助您的直推（例如A）完成七人成團。
-                     </p>
-                     <div class="bg-paper p-6 border-2 border-black mb-6">
-                         <div class="flex items-center gap-4 mb-4">
-                             <div class="w-12 h-12 bg-black text-white flex items-center justify-center font-bold rounded-full">YOU</div>
-                             <i class="fas fa-handshake text-2xl text-signal"></i>
-                             <div class="w-12 h-12 bg-white border-2 border-black flex items-center justify-center font-bold rounded-full">A</div>
-                             <div class="text-xs font-mono bg-gray-200 px-2 py-1">A達成七人成團</div>
+                <div class="bg-white border-4 border-black p-8 relative hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_#000] transition-all duration-300 flex flex-col justify-between">
+                     <div>
+                         <div class="absolute -top-4 left-6 bg-black text-white px-4 py-1 font-heavy text-sm">MENTOR (1 STAR)</div>
+                         <h3 class="font-heavy text-4xl mb-4 mt-4" data-i18n="bole.title">伯樂獎</h3>
+                         <p class="font-mono text-gray-600 mb-8" data-i18n="bole.desc">
+                             幫助您的直推（例如A）完成七人成團。
+                         </p>
+                         <div class="bg-paper p-6 border-2 border-black mb-6">
+                             <div class="flex items-center gap-4 justify-center">
+                                 <div class="w-12 h-12 bg-black text-white flex items-center justify-center font-bold rounded-full text-xs">YOU</div>
+                                 <i class="fas fa-handshake text-2xl text-signal animate-pulse"></i>
+                                 <div class="w-12 h-12 bg-white border-2 border-black flex items-center justify-center font-bold rounded-full text-xs">A</div>
+                             </div>
+                             <div class="text-center mt-3 text-xs font-mono bg-black text-white px-2 py-1 inline-block w-full">TEAM A COMPLETED</div>
                          </div>
                      </div>
-                     <div class="flex flex-col gap-4">
+                     <div class="flex flex-col gap-4 mt-4">
                          <div class="flex justify-between items-center border-b-2 border-gray-200 pb-2">
-                             <span class="font-bold text-gray-500">YOU GET</span>
-                             <span class="font-heavy text-3xl text-signal">$1,200</span>
+                             <span class="font-bold text-gray-500 font-mono text-sm">YOU GET</span>
+                             <span class="font-heavy text-4xl text-signal">$1,200</span>
                          </div>
                          <div class="flex justify-between items-center">
-                             <span class="font-bold text-gray-500">MEMBER GETS</span>
+                             <span class="font-bold text-gray-500 font-mono text-sm">MEMBER GETS</span>
                              <span class="font-mono font-bold">1000 AIF</span>
                          </div>
                      </div>
                 </div>
 
                 <!-- 賽伯樂獎 -->
-                <div class="bg-black text-gold border-4 border-gold p-8 relative hover:shadow-[10px_10px_0px_0px_#FFD700] transition-all duration-300">
-                     <div class="absolute -top-4 left-6 bg-gold text-black px-4 py-1 font-heavy text-sm">KINGMAKER (9 STARS)</div>
-                     <div class="absolute top-4 right-4 text-gold text-4xl"><i class="fas fa-crown"></i></div>
-                     <h3 class="font-heavy text-4xl mb-4 mt-4" data-i18n="grand.title">賽伯樂獎</h3>
-                     <p class="font-mono text-gray-300 mb-8 h-auto min-h-[60px]" data-i18n="grand.desc">
-                         幫助9個直推全部完成七人成團（九星連珠）。
-                     </p>
-                     
-                     <div class="grid grid-cols-3 gap-2 mb-8 opacity-80">
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">A (1★)</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">B (2★)</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">C (3★)</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">...</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">...</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">...</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">G (7★)</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">H (8★)</div></div>
-                         <div class="text-center"><i class="fas fa-star text-gold"></i><div class="text-[10px] text-gray-500">I (9★)</div></div>
+                <div class="bg-black text-gold border-4 border-gold p-8 relative hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_#FFD700] transition-all duration-300 flex flex-col justify-between">
+                     <div>
+                         <div class="absolute -top-4 left-6 bg-gold text-black px-4 py-1 font-heavy text-sm border-2 border-black">KINGMAKER (9 STARS)</div>
+                         <div class="absolute top-4 right-4 text-gold text-4xl"><i class="fas fa-crown animate-bounce"></i></div>
+                         <h3 class="font-heavy text-4xl mb-4 mt-4" data-i18n="grand.title">賽伯樂獎</h3>
+                         <p class="font-mono text-gray-300 mb-8" data-i18n="grand.desc">
+                             幫助9個直推全部完成七人成團（九星連珠）。
+                         </p>
+                         
+                         <!-- Mobile Optimized Grid -->
+                         <div class="grid grid-cols-3 gap-3 mb-8 opacity-90">
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">1. TEAM A</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">2. TEAM B</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">3. TEAM C</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">...</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">PROCESS</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">...</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">7. TEAM G</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gray-800 rounded bg-gray-900"><i class="fas fa-star text-gold mb-1"></i><div class="text-[10px] text-gray-400">8. TEAM H</div></div>
+                             <div class="flex flex-col items-center p-2 border border-gold rounded bg-gray-800"><i class="fas fa-star text-signal mb-1"></i><div class="text-[10px] text-white font-bold">9. TEAM I</div></div>
+                         </div>
                      </div>
 
-                     <div class="border-t border-gray-800 pt-4">
+                     <div class="border-t-2 border-gold pt-4 mt-auto">
                          <div class="text-center">
-                             <span class="block font-mono text-xs text-gray-400 mb-2">ULTIMATE REWARD</span>
-                             <span class="font-heavy text-5xl md:text-6xl text-gold">$10,000</span>
+                             <span class="block font-mono text-xs text-gold mb-2 tracking-[0.2em]">ULTIMATE REWARD</span>
+                             <span class="font-heavy text-5xl md:text-6xl text-white drop-shadow-[0_2px_0_#FFD700]">$10,000</span>
                          </div>
                      </div>
                 </div>
             </div>
 
-            <!-- Roadmap -->
+            <!-- Roadmap (Mobile Stacked) -->
             <div class="bg-white border-2 border-black p-6 md:p-10">
                 <h4 class="font-heavy text-xl mb-8 text-center border-b-2 border-black pb-4" data-i18n="roadmap.title">KINGMAKER ROADMAP</h4>
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center">
-                    <div class="flex-1 w-full">
-                        <div class="font-heavy text-2xl mb-1 text-gray-400">01</div>
-                        <div class="font-bold text-sm mb-2" data-i18n="roadmap.step1">二二複製</div>
-                        <div class="text-xs text-gray-500">100% 回本</div>
+                <div class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 text-center">
+                    <div class="flex-1 w-full relative">
+                        <div class="font-heavy text-4xl md:text-2xl mb-1 text-gray-200 md:text-gray-400 absolute md:static top-0 left-4 md:left-auto opacity-50 md:opacity-100">01</div>
+                        <div class="font-bold text-lg md:text-sm mb-1" data-i18n="roadmap.step1">二二複製</div>
+                        <div class="text-sm md:text-xs text-gray-500 font-mono">100% 回本</div>
                     </div>
-                    <i class="fas fa-arrow-down md:fa-arrow-right text-signal"></i>
-                    <div class="flex-1 w-full">
-                        <div class="font-heavy text-2xl mb-1 text-gray-400">02</div>
-                        <div class="font-bold text-sm mb-2" data-i18n="roadmap.step2">自身成團</div>
-                        <div class="text-xs text-gray-500">成員獲AIF</div>
+                    <i class="fas fa-arrow-down md:fa-arrow-right text-signal text-xl"></i>
+                    <div class="flex-1 w-full relative">
+                        <div class="font-heavy text-4xl md:text-2xl mb-1 text-gray-200 md:text-gray-400 absolute md:static top-0 left-4 md:left-auto opacity-50 md:opacity-100">02</div>
+                        <div class="font-bold text-lg md:text-sm mb-1" data-i18n="roadmap.step2">自身成團</div>
+                        <div class="text-sm md:text-xs text-gray-500 font-mono">成員獲AIF</div>
                     </div>
-                    <i class="fas fa-arrow-down md:fa-arrow-right text-signal"></i>
-                    <div class="flex-1 w-full">
-                        <div class="font-heavy text-2xl mb-1 text-black">03</div>
-                        <div class="font-bold text-sm mb-2" data-i18n="roadmap.step3">伯樂獎 (1★)</div>
-                        <div class="text-xs text-gray-500">幫A成團 ($1200)</div>
+                    <i class="fas fa-arrow-down md:fa-arrow-right text-signal text-xl"></i>
+                    <div class="flex-1 w-full relative">
+                        <div class="font-heavy text-4xl md:text-2xl mb-1 text-gray-200 md:text-black absolute md:static top-0 left-4 md:left-auto opacity-50 md:opacity-100">03</div>
+                        <div class="font-bold text-lg md:text-sm mb-1" data-i18n="roadmap.step3">伯樂獎 (1★)</div>
+                        <div class="text-sm md:text-xs text-gray-500 font-mono">幫A成團 ($1200)</div>
                     </div>
-                    <i class="fas fa-arrow-down md:fa-arrow-right text-signal"></i>
-                    <div class="flex-1 w-full">
-                        <div class="font-heavy text-2xl mb-1 text-gold">04</div>
-                        <div class="font-bold text-sm mb-2" data-i18n="roadmap.step4">賽伯樂 (9★)</div>
-                        <div class="text-xs text-gray-500">幫9人成團 ($10,000)</div>
+                    <i class="fas fa-arrow-down md:fa-arrow-right text-signal text-xl"></i>
+                    <div class="flex-1 w-full relative p-4 border-2 border-gold bg-black text-gold md:border-0 md:bg-transparent md:text-black md:p-0">
+                        <div class="font-heavy text-4xl md:text-2xl mb-1 text-white md:text-gold absolute md:static top-2 right-4 md:right-auto opacity-20 md:opacity-100">04</div>
+                        <div class="font-bold text-lg md:text-sm mb-1" data-i18n="roadmap.step4">賽伯樂 (9★)</div>
+                        <div class="text-sm md:text-xs text-white md:text-gray-500 font-mono">幫9人成團 ($10,000)</div>
                     </div>
                 </div>
             </div>
@@ -550,60 +555,116 @@
         </div>
     </section>
 
-    <!-- 11. 激活與確權 -->
+    <!-- 11. 激活與確權 (REDESIGNED FOR OPTIMIZATION) -->
     <section id="activation" class="py-24 px-4 bg-signal">
-        <div class="max-w-4xl mx-auto bg-white border-4 border-black p-6 md:p-12 shadow-[15px_15px_0px_0px_#000]">
-            <h2 class="section-title text-center mb-8" data-i18n="act.title">開啟KINGMAKER計劃</h2>
-            <p class="text-center font-mono mb-8 font-bold text-lg">PRICE: 900 USD</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <button onclick="openModal('cryptoModal')" class="brutal-btn w-full justify-between bg-black text-white hover:bg-gray-800">
-                    <span>CRYPTO (USDT)</span> <i class="fas fa-wallet"></i>
-                </button>
-                <button onclick="openModal('fiatModal')" class="brutal-btn secondary w-full justify-between">
-                    <span data-i18n="act.fiat">法幣支付 (Wise)</span> <i class="fas fa-credit-card"></i>
-                </button>
-            </div>
-
-            <div class="bg-paper border-2 border-black p-6">
-                <h3 class="font-heavy text-xl mb-4 border-b-2 border-black pb-2 flex items-center gap-2">
-                    <i class="fas fa-fingerprint"></i> <span data-i18n="act.validator">確權生成器</span>
-                </h3>
-                
-                <div class="flex mb-6 text-sm font-mono border-2 border-black">
-                    <button onclick="setMode('new')" id="btn-new" class="flex-1 py-3 bg-black text-white text-center transition-colors">
-                        <span data-i18n="act.new">我是新船長</span>
-                    </button>
-                    <button onclick="setMode('invite')" id="btn-invite" class="flex-1 py-3 bg-white text-gray-400 hover:text-black text-center transition-colors border-l-2 border-black">
-                        <span data-i18n="act.invited">我是被邀請的</span>
-                    </button>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="block font-mono text-xs font-bold mb-1"><span data-i18n="act.wallet">您的接收錢包 (SOL/BSC)</span> *</label>
-                        <input type="text" id="input-wallet" class="w-full border-2 border-black p-3 font-mono focus:bg-yellow-50 outline-none" placeholder="e.g. 3QBgQi...">
-                    </div>
-                    
-                    <div id="referrer-group" class="hidden animate-fade-in">
-                        <label class="block font-mono text-xs font-bold mb-1 text-signal"><span data-i18n="act.ref">推薦人信息 (綁定伯樂獎)</span> *</label>
-                        <input type="text" id="input-referrer" class="w-full border-2 border-signal p-3 font-mono focus:bg-yellow-50 outline-none" placeholder="Referrer's Email or Wallet">
-                        <p class="text-[10px] font-mono text-gray-500 mt-1"><span data-i18n="act.ref_note">注意：必須填寫才能激活二二複製現金獎和七人成團獎勵。</span></p>
-                    </div>
-                </div>
-
-                <div class="mt-6 bg-white border border-gray-300 p-4 font-mono text-xs text-gray-600 break-all" id="email-preview">
-                    Please fill details above...
-                </div>
-
-                <div class="mt-6 flex flex-col md:flex-row gap-4">
-                    <button onclick="sendEmail()" class="brutal-btn bg-signal text-black w-full flex-1"><span data-i18n="act.launch">啟動郵件</span></button>
-                    <button onclick="copyContent()" class="brutal-btn secondary w-full flex-1"><span data-i18n="act.copy">複製內容</span></button>
+        <div class="max-w-4xl mx-auto bg-black border-4 border-black p-1 shadow-[20px_20px_0px_0px_rgba(0,0,0,0.5)]">
+            <div class="bg-gray-900 border border-gray-700 p-6 md:p-12 relative overflow-hidden">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
+                    <i class="fas fa-microchip text-9xl text-signal"></i>
                 </div>
                 
-                <p class="text-center font-mono text-[10px] text-red-600 font-bold mt-4 animate-pulse">
-                    <span data-i18n="act.warn">⚠️ 請務必在郵件中手動粘貼【付款截圖】！</span>
-                </p>
+                <div class="relative z-10">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-gray-700 pb-6">
+                        <div>
+                            <span class="text-signal font-mono text-xs tracking-widest uppercase animate-pulse">/// SYSTEM ACCESS ///</span>
+                            <h2 class="section-title text-white mt-2 mb-0" data-i18n="act.title">開啟KINGMAKER計劃</h2>
+                        </div>
+                        <div class="text-center md:text-right mt-4 md:mt-0">
+                            <div class="text-gray-400 font-mono text-xs mb-1">ENTRY PRICE</div>
+                            <div class="text-4xl font-heavy text-white">900 <span class="text-signal">USD</span></div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 1: FUNDING -->
+                    <div class="mb-10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-signal text-black font-bold px-2 py-1 text-xs">STEP 01</div>
+                            <h3 class="text-white font-heavy text-xl uppercase">Funding Protocol</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <button onclick="openModal('cryptoModal')" class="group relative bg-transparent border-2 border-white text-white p-4 hover:bg-white hover:text-black transition-all overflow-hidden">
+                                <div class="relative z-10 flex justify-between items-center font-mono font-bold">
+                                    <span>CRYPTO (USDT)</span> 
+                                    <i class="fas fa-wallet text-xl group-hover:scale-110 transition-transform"></i>
+                                </div>
+                            </button>
+                            <button onclick="openModal('fiatModal')" class="group relative bg-transparent border-2 border-white text-white p-4 hover:bg-white hover:text-black transition-all overflow-hidden">
+                                <div class="relative z-10 flex justify-between items-center font-mono font-bold">
+                                    <span data-i18n="act.fiat">法幣支付 (Wise)</span> 
+                                    <i class="fas fa-credit-card text-xl group-hover:scale-110 transition-transform"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: VALIDATOR -->
+                    <div class="bg-black border border-gray-700 p-6 relative">
+                        <div class="absolute -top-3 left-4 bg-gray-900 px-2 text-signal text-xs font-mono font-bold border border-gray-700">
+                            STEP 02: VALIDATOR CONSOLE
+                        </div>
+                        
+                        <!-- Mode Switcher -->
+                        <div class="flex mb-6 bg-gray-900 p-1 border border-gray-800 rounded">
+                            <button onclick="setMode('new')" id="btn-new" class="flex-1 py-3 text-center transition-all font-mono text-xs md:text-sm font-bold bg-signal text-black shadow-sm">
+                                <i class="fas fa-user-astronaut mr-2"></i><span data-i18n="act.new">我是新船長</span>
+                            </button>
+                            <button onclick="setMode('invite')" id="btn-invite" class="flex-1 py-3 text-center transition-all font-mono text-xs md:text-sm font-bold text-gray-400 hover:text-white">
+                                <i class="fas fa-link mr-2"></i><span data-i18n="act.invited">我是被邀請的</span>
+                            </button>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block font-mono text-xs font-bold mb-2 text-gray-400 flex justify-between">
+                                    <span><span data-i18n="act.wallet">您的接收錢包 (SOL/BSC)</span> <span class="text-signal">*</span></span>
+                                    <span class="text-[10px] opacity-50">REQUIRED</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-wallet absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                    <input type="text" id="input-wallet" class="w-full bg-gray-900 border border-gray-600 text-white p-4 pl-12 font-mono text-sm focus:border-signal focus:outline-none transition-colors placeholder-gray-700" placeholder="e.g. 3QBgQi...">
+                                </div>
+                            </div>
+                            
+                            <div id="referrer-group" class="hidden animate-fade-in">
+                                <label class="block font-mono text-xs font-bold mb-2 text-signal flex justify-between">
+                                    <span><span data-i18n="act.ref">推薦人信息 (綁定伯樂獎)</span> <span class="text-white">*</span></span>
+                                    <span class="text-[10px] opacity-50">CRITICAL</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-user-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-signal"></i>
+                                    <input type="text" id="input-referrer" class="w-full bg-gray-900 border border-signal text-white p-4 pl-12 font-mono text-sm focus:outline-none placeholder-gray-700" placeholder="Referrer's Email or Wallet">
+                                </div>
+                                <p class="text-[10px] font-mono text-gray-500 mt-2 bg-gray-900 p-2 border-l-2 border-signal">
+                                    <i class="fas fa-info-circle mr-1"></i> <span data-i18n="act.ref_note">注意：必須填寫才能激活二二複製現金獎和七人成團獎勵。</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Terminal Preview -->
+                        <div class="mt-6 bg-gray-900 border border-gray-700 p-4 font-mono text-xs text-green-500 break-all relative group">
+                            <div class="absolute top-0 right-0 bg-gray-800 text-[10px] text-gray-400 px-2 py-1">PREVIEW</div>
+                            <div id="email-preview" class="opacity-80">
+                                // WAITING FOR INPUT...
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 flex flex-col md:flex-row gap-4">
+                            <button onclick="sendEmail()" class="flex-1 bg-signal text-black border-2 border-signal py-4 font-heavy uppercase tracking-wider hover:bg-black hover:text-signal transition-colors flex items-center justify-center gap-2">
+                                <i class="fas fa-paper-plane"></i> <span data-i18n="act.launch">啟動郵件</span>
+                            </button>
+                            <button onclick="copyContent()" class="flex-1 bg-transparent text-white border-2 border-gray-600 py-4 font-heavy uppercase tracking-wider hover:border-white transition-colors flex items-center justify-center gap-2">
+                                <i class="fas fa-copy"></i> <span data-i18n="act.copy">複製內容</span>
+                            </button>
+                        </div>
+                        
+                        <p class="text-center font-mono text-[10px] text-red-500 font-bold mt-4 animate-pulse flex items-center justify-center gap-2">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span data-i18n="act.warn">⚠️ 請務必在郵件中手動粘貼【付款截圖】！</span>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -940,8 +1001,16 @@
         let mode = 'new';
         function setMode(m) {
             mode = m;
-            document.getElementById('btn-new').className = mode === 'new' ? "flex-1 py-3 bg-black text-white text-center transition-colors" : "flex-1 py-3 bg-white text-gray-400 hover:text-black text-center transition-colors border-r-2 border-black";
-            document.getElementById('btn-invite').className = mode === 'invite' ? "flex-1 py-3 bg-black text-white text-center transition-colors border-l-2 border-black" : "flex-1 py-3 bg-white text-gray-400 hover:text-black text-center transition-colors border-l-2 border-black";
+            document.getElementById('btn-new').className = mode === 'new' ? "flex-1 py-3 bg-black text-white text-center transition-colors border-r-2 border-black" : "flex-1 py-3 bg-white text-gray-400 hover:text-black text-center transition-colors border-l-2 border-black";
+            // Update button styles dynamically based on selection
+            if (mode === 'new') {
+                document.getElementById('btn-new').className = "flex-1 py-3 text-center transition-all font-mono text-xs md:text-sm font-bold bg-signal text-black shadow-sm";
+                document.getElementById('btn-invite').className = "flex-1 py-3 text-center transition-all font-mono text-xs md:text-sm font-bold text-gray-400 hover:text-white";
+            } else {
+                document.getElementById('btn-new').className = "flex-1 py-3 text-center transition-all font-mono text-xs md:text-sm font-bold text-gray-400 hover:text-white";
+                document.getElementById('btn-invite').className = "flex-1 py-3 text-center transition-all font-mono text-xs md:text-sm font-bold bg-signal text-black shadow-sm";
+            }
+            
             document.getElementById('referrer-group').style.display = mode === 'invite' ? 'block' : 'none';
             updateEmailPreview();
         }
@@ -993,6 +1062,9 @@
         gsap.utils.toArray('.info-card').forEach(card => {
             gsap.from(card, { y: 30, opacity: 0, duration: 0.6, scrollTrigger: { trigger: card, start: "top 90%" }});
         });
+        
+        // Initial setup for buttons
+        setMode('new');
     </script>
 </body>
 </html>
