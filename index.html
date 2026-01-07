@@ -187,11 +187,12 @@
             <!-- Actions & Lang -->
             <div class="flex items-center gap-4">
                 <div class="relative group">
-                    <button id="lang-btn" class="text-xs font-mono border border-gray-200 px-3 py-1.5 rounded-full hover:bg-black hover:text-white transition-all uppercase flex items-center gap-2">
+                    <!-- Changed to use toggle function instead of relying on group-hover for mobile consistency -->
+                    <button id="lang-btn" onclick="toggleLanguageMenu()" class="text-xs font-mono border border-gray-200 px-3 py-1.5 rounded-full hover:bg-black hover:text-white transition-all uppercase flex items-center gap-2">
                         <i class="fas fa-globe"></i> <span id="current-lang">繁體中文</span>
                     </button>
-                    <!-- Dropdown -->
-                    <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <!-- Dropdown with hidden class for manual toggle -->
+                    <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-xl hidden z-50">
                         <button onclick="changeLang('zh')" class="block w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-medium first:rounded-t-lg">繁體中文</button>
                         <button onclick="changeLang('en')" class="block w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-medium">English</button>
                         <button onclick="changeLang('ja')" class="block w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-medium">日本語</button>
@@ -997,6 +998,12 @@
 
         // 3. Language Switching
         let currentLang = 'zh';
+        
+        function toggleLanguageMenu() {
+            const dropdown = document.getElementById('lang-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
         function changeLang(lang) {
             currentLang = lang;
             
@@ -1016,15 +1023,19 @@
 
             updateEmailPreview();
 
-            // FIX: Close dropdown on mobile (simulated by unfocusing/resetting state)
+            // FIX: Close dropdown on mobile (and desktop) after selection
             const dropdown = document.getElementById('lang-dropdown');
-            if (dropdown) {
-                dropdown.style.display = 'none';
-                setTimeout(() => {
-                    dropdown.style.display = '';
-                }, 10);
-            }
+            dropdown.classList.add('hidden');
         }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            const btn = document.getElementById('lang-btn');
+            const dropdown = document.getElementById('lang-dropdown');
+            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
 
         // 4. UI Functions
         function toggleMenu() { 
