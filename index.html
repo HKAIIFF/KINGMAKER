@@ -187,11 +187,11 @@
             <!-- Actions & Lang -->
             <div class="flex items-center gap-4">
                 <div class="relative group">
-                    <button class="text-xs font-mono border border-gray-200 px-3 py-1.5 rounded-full hover:bg-black hover:text-white transition-all uppercase flex items-center gap-2">
+                    <button id="lang-btn" class="text-xs font-mono border border-gray-200 px-3 py-1.5 rounded-full hover:bg-black hover:text-white transition-all uppercase flex items-center gap-2">
                         <i class="fas fa-globe"></i> <span id="current-lang">繁體中文</span>
                     </button>
                     <!-- Dropdown -->
-                    <div class="absolute top-full right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                         <button onclick="changeLang('zh')" class="block w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-medium first:rounded-t-lg">繁體中文</button>
                         <button onclick="changeLang('en')" class="block w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-medium">English</button>
                         <button onclick="changeLang('ja')" class="block w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-medium">日本語</button>
@@ -210,8 +210,13 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-white z-40 transform translate-x-full transition-transform duration-300 pt-24 px-6">
-        <div class="flex flex-col gap-6 text-center">
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-40 transform translate-x-full transition-transform duration-300 pt-24 px-6 flex flex-col h-screen">
+        <!-- Close Button for Mobile Menu -->
+        <button onclick="toggleMenu()" class="absolute top-6 right-6 p-2 text-black text-2xl hover:text-gray-600 transition-colors">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="flex flex-col gap-6 text-center mt-12">
             <a href="#logic-2x2" onclick="toggleMenu()" class="text-xl font-bold hover:text-gray-600" data-i18n="nav.2x2">二二複製</a>
             <a href="#logic-7" onclick="toggleMenu()" class="text-xl font-bold hover:text-gray-600" data-i18n="nav.team">七人成團</a>
             <a href="#logic-king" onclick="toggleMenu()" class="text-xl font-bold hover:text-gray-600" data-i18n="nav.king">伯樂與賽伯樂</a>
@@ -818,7 +823,7 @@
                 "nav.2x2": "二二複製", "nav.team": "七人成團", "nav.king": "伯樂與賽伯樂", "nav.token": "AIF 通證", "nav.eco": "生態系統", "nav.activate": "開啟KINGMAKER計劃",
                 "hero.tag": "賽伯樂計劃：1億 AIF 獎勵池已開啟", "hero.desc": "900 USD 創世節點 · 贈送 10,000 AIF · 二二複製回本 · 伯樂 $1200 獎勵 · 賽伯樂 $10,000 獎勵", "hero.btn1": "成為賽伯樂", "hero.btn2": "查看規則",
                 
-                "core.header": "/// 三大核心優勢 ///",
+        // 2. I18N Data (Preserved from Original)
                 "core.1.title": "合規主體", "core.1.desc": "香港政府批復合規合法運營主體。<br>支付無憂，生態保障。",
                 "core.2.title": "落地項目", "core.2.desc": "已落地項目非空談理想願景。<br>香港AI電影學院已上線運營8個月。<br>120個月項目運營計劃穩步推進。",
                 "core.3.title": "全員獎勵", "core.3.desc": "參加 KINGMAKER 計劃，創世會員與被推薦用戶均可共享成團獎勵。<br><span class=\"text-signal font-bold\">100,000,000 AIF</span><br>通證鉅額生態紅利震撼釋放！",
@@ -1010,6 +1015,15 @@
             });
 
             updateEmailPreview();
+
+            // FIX: Close dropdown on mobile (simulated by unfocusing/resetting state)
+            const dropdown = document.getElementById('lang-dropdown');
+            if (dropdown) {
+                dropdown.style.display = 'none';
+                setTimeout(() => {
+                    dropdown.style.display = '';
+                }, 10);
+            }
         }
 
         // 4. UI Functions
